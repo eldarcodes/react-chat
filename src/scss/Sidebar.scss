@@ -24,12 +24,16 @@
     border: none;
     margin-left: 10px;
     outline: none;
+    flex: 0.9;
+    padding: 10px 0;
 }
 
 .sidebar__searchContainer > .MuiSvgIcon-root {
     color: gray;
     padding: 10px;
+    cursor: pointer;
 }
+
 
 .sidebar__header {
     display: flex;

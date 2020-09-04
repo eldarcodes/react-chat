@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined'
 import SidebarChat from './SidebarChat'
 import db from './../firebase/firebase'
-import { useStateValue } from './../StateProvider';
+import {useStateValue} from './../StateProvider'
 
 const Sidebar = () => {
   const [rooms, setRooms] = useState([])
