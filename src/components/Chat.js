@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import '../scss/Chat.scss'
 import {Avatar} from '@material-ui/core'
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined'
@@ -19,6 +19,12 @@ const Chat = () => {
   const [roomName, setRoomName] = useState('')
   const {roomId} = useParams()
   const [{user}, dispatch] = useStateValue()
+
+  const el = useRef(null)
+
+  useEffect(() => {
+    el.current.scrollIntoView({block: 'end', behavior: 'auto'})
+  })
 
   useEffect(() => {
     if (roomId) {
@@ -56,9 +62,11 @@ const Chat = () => {
           <h3>{roomName}</h3>
           <p>
             Был в сети:
-            {messages.length ? new Date(
-              messages[messages.length - 1]?.timestamp?.toDate()
-            ).toUTCString() : '-'}
+            {messages.length
+              ? new Date(
+                  messages[messages.length - 1]?.timestamp?.toDate()
+                ).toUTCString()
+              : '-'}
           </p>
         </div>
         <div className="chat__headerRight">
@@ -88,6 +96,7 @@ const Chat = () => {
             </span>
           </p>
         ))}
+        <div id="el" ref={el}></div>
       </div>
       <div className="chat__footer">
         <InsertEmoticonIcon />
