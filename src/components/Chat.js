@@ -48,14 +48,18 @@ const Chat = () => {
     })
     setInput('')
   }
-  console.log(messages)
   return (
     <div className="chat">
       <div className="chat__header">
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className="chat__headerInfo">
           <h3>{roomName}</h3>
-          <p>Last seen at...</p>
+          <p>
+            Был в сети:
+            {messages.length ? new Date(
+              messages[messages.length - 1]?.timestamp?.toDate()
+            ).toUTCString() : '-'}
+          </p>
         </div>
         <div className="chat__headerRight">
           <IconButton>
@@ -70,8 +74,9 @@ const Chat = () => {
         </div>
       </div>
       <div className="chat__body">
-        {messages.map((message) => (
+        {messages.map((message, i) => (
           <p
+            key={i}
             className={`chat__message ${
               message.name === user.displayName && 'chat__reciever'
             }`}
