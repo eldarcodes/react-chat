@@ -37,7 +37,7 @@ const SidebarChat = ({addNewChat, id, name}) => {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className="sidebarChat__info">
           <h2>{name}</h2>
-          <p>{message[0]?.message ? message[0]?.message : ' '}</p>
+          <p className="old__message">{message[0]?.message ? message[0]?.message : ' '}</p>
         </div>
       </div>
     </Link>

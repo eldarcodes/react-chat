@@ -17,6 +17,9 @@ const App = () => {
           <Route path="/" exact>
             <Login />
           </Route>
+          <Route path="/rooms/:roomId">
+            <Redirect to="/" />
+          </Route>
           <Route component={Error404} />
         </Switch>
       ) : (
