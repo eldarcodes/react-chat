@@ -4,7 +4,7 @@
     cursor: pointer;
     border-bottom: 1px solid lightgray;
     &:hover {
-        background-color: rgb(219, 219, 219);
+        background-color: lightgray;
     }
     &__info > h2 {
         font-size: 16px;
@@ -13,8 +13,13 @@
     &__info {
         margin-left: 15px;
     }
-    svg {
+    .addChatIcon {
         display: none;
+    }
+    svg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 

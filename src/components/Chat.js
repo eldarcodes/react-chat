@@ -14,7 +14,6 @@ import firebase from 'firebase'
 import SendIcon from '@material-ui/icons/Send'
 
 const Chat = () => {
-  const [seed, setSeed] = useState('')
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
   const [roomName, setRoomName] = useState('')
@@ -46,10 +45,6 @@ const Chat = () => {
       )
   }, [roomId])
 
-  useEffect(() => {
-    setSeed(Math.floor(Math.random() * 5000))
-  }, [roomId])
-
   const sendMessage = (e) => {
     e.preventDefault()
     if (input) {
@@ -73,7 +68,7 @@ const Chat = () => {
               ? new Date(
                   messages[messages.length - 1]?.timestamp?.toDate()
                 ).toUTCString()
-              : '-'}
+              : ' -'}
           </p>
         </div>
         <div className="chat__headerRight">

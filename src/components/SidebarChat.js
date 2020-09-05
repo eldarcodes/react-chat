@@ -67,7 +67,7 @@ const SidebarChat = ({addNewChat, id, name, color}) => {
   ) : (
     <div className="sidebarChat" onClick={createChat}>
       <h2 className="addChat">Добавить новый чат</h2>
-      <AddIcon />
+      <AddIcon className="addChatIcon"/>
     </div>
   )
 }
