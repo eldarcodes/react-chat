@@ -2,7 +2,7 @@
     display: flex;
     padding: 20px;
     cursor: pointer;
-    border-bottom: 1px solid #f6f6f6;
+    border-bottom: 1px solid lightgray;
     &:hover {
         background-color: rgb(219, 219, 219);
     }
@@ -13,12 +13,15 @@
     &__info {
         margin-left: 15px;
     }
+    svg {
+        display: none;
+    }
 }
 
 .old__message {
     text-overflow: ellipsis;
-    overflow: hidden; 
-    width: 160px; 
-    height: 1.2em; 
+    overflow: hidden;
+    width: 160px;
+    height: 1.2em;
     white-space: nowrap;
 }

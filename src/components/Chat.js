@@ -102,7 +102,7 @@ const Chat = () => {
         <div id="el" ref={el}></div>
       </div>
       <div className="chat__footer">
-        <IconButton>
+        <IconButton className="emotio">
           <InsertEmoticonIcon />
         </IconButton>
         <form action="">
@@ -112,13 +112,18 @@ const Chat = () => {
             placeholder="Напишите сообщение"
             type="text"
           />
-          <button style={{padding: 0}} type="submit" onClick={sendMessage}>
+          <button
+            className="send_mes"
+            style={{padding: 0}}
+            type="submit"
+            onClick={sendMessage}
+          >
             <IconButton>
               <SendIcon />
             </IconButton>
           </button>
         </form>
-        <IconButton>
+        <IconButton className="mic_icon">
           <MicIcon />
         </IconButton>
       </div>
