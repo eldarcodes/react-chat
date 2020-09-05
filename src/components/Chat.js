@@ -11,6 +11,7 @@ import {useParams} from 'react-router-dom'
 import db from './../firebase/firebase'
 import {useStateValue} from './../StateProvider'
 import firebase from 'firebase'
+import SendIcon from '@material-ui/icons/Send'
 
 const Chat = () => {
   const [seed, setSeed] = useState('')
@@ -47,11 +48,13 @@ const Chat = () => {
 
   const sendMessage = (e) => {
     e.preventDefault()
-    db.collection('rooms').doc(roomId).collection('messages').add({
-      name: user.displayName,
-      message: input,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    })
+    if (input) {
+      db.collection('rooms').doc(roomId).collection('messages').add({
+        name: user.displayName,
+        message: input,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+    }
     setInput('')
   }
   return (
@@ -99,7 +102,9 @@ const Chat = () => {
         <div id="el" ref={el}></div>
       </div>
       <div className="chat__footer">
-        <InsertEmoticonIcon />
+        <IconButton className="emotio">
+          <InsertEmoticonIcon />
+        </IconButton>
         <form action="">
           <input
             value={input}
@@ -107,11 +112,20 @@ const Chat = () => {
             placeholder="Напишите сообщение"
             type="text"
           />
-          <button type="submit" onClick={sendMessage}>
-            Отправить сообщение
+          <button
+            className="send_mes"
+            style={{padding: 0}}
+            type="submit"
+            onClick={sendMessage}
+          >
+            <IconButton>
+              <SendIcon />
+            </IconButton>
           </button>
         </form>
-        <MicIcon />
+        <IconButton className="mic_icon">
+          <MicIcon />
+        </IconButton>
       </div>
     </div>
   )

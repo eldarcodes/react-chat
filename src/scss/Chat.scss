@@ -5,7 +5,8 @@
 }
 
 .chat__header {
-    padding: 20px;
+    padding: 19px;
+    padding-bottom: 20px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid lightgray;
@@ -48,6 +49,7 @@
     border-radius: 10px;
     width: fit-content;
     margin-bottom: 30px;
+    word-break: break-all;
 }
 
 .chat__timestamp {
@@ -69,29 +71,32 @@
 
 .chat__footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    height: 62px;
+    height: 53px;
     border-top: 1px solid lightgray;
+    padding: 0 5px;
 }
 
 .chat__footer > form {
     flex: 1;
     display: flex;
+    align-items: center;
 }
 .chat__footer > form > input {
     flex: 1;
     border-radius: 30px;
     outline: none;
     border: none;
-    padding: 10px;
+    height: 30px;
+    padding-left: 10px;
 }
 
 .chat__footer button {
-    display: none;
+    border: none;
+    outline: none;
 }
 
 .chat__footer .MuiSvgIcon-root {
-    padding: 10px;
     color: gray;
 }

@@ -3,14 +3,11 @@ import {Avatar} from '@material-ui/core'
 import '../scss/SidebarChat.scss'
 import db from './../firebase/firebase'
 import {Link} from 'react-router-dom'
+import AddIcon from '@material-ui/icons/Add'
 
 const SidebarChat = ({addNewChat, id, name}) => {
   const [seed, setSeed] = useState('')
   const [message, setMessages] = useState([])
-
-  useEffect(() => {
-    setSeed(Math.floor(Math.random() * 5000))
-  }, [])
 
   useEffect(() => {
     if (id) {
@@ -31,19 +28,26 @@ const SidebarChat = ({addNewChat, id, name}) => {
     }
   }
 
+  const randomColor = () => {
+    return '#' + (((1 << 24) * Math.random()) | 0).toString(16)
+  }
+
   return !addNewChat ? (
     <Link to={`/rooms/${id}`}>
       <div className="sidebarChat">
-        <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
+        <Avatar style={{backgroundColor: `${randomColor()}`}} />
         <div className="sidebarChat__info">
           <h2>{name}</h2>
-          <p>{message[0]?.message ? message[0]?.message : ' '}</p>
+          <p className="old__message">
+            {message[0]?.message ? message[0]?.message : ' '}
+          </p>
         </div>
       </div>
     </Link>
   ) : (
     <div className="sidebarChat" onClick={createChat}>
       <h2>Добавить новый чат</h2>
+      <AddIcon />
     </div>
   )
 }

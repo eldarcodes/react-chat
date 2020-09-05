@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     flex: 0.35;
+    border-right: 1px solid lightgray;
 }
 
 .sidebar__search {
@@ -34,12 +35,12 @@
     cursor: pointer;
 }
 
-
 .sidebar__header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 20px;
-    border: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
 }
 
 .sidebar__headerRight {

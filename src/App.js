@@ -17,6 +17,9 @@ const App = () => {
           <Route path="/" exact>
             <Login />
           </Route>
+          <Route path="/rooms/:roomId">
+            <Redirect to="/" />
+          </Route>
           <Route component={Error404} />
         </Switch>
       ) : (
@@ -24,7 +27,11 @@ const App = () => {
           <Sidebar />
           <Switch>
             <Route path="/rooms/:roomId" component={Chat} />
-            <Route path="/"></Route>
+            <Route path="/">
+              <div className="choose__chat">
+                <h2>Выберите чат</h2>
+              </div>
+            </Route>
           </Switch>
         </div>
       )}

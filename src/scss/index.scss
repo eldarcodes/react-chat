@@ -99,7 +99,6 @@ a {
     padding: 0 200px;
     background-color: white;
     box-shadow: -1px 4px 20px -5px rgba(0, 0, 0, 0.7);
-
 }
 
 .path {
@@ -118,5 +117,23 @@ a {
     100% {
         fill: transparent;
         stroke-dashoffset: -200;
+    }
+}
+
+.choose__chat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: black;
+    background-image: url("https://i.pinimg.com/originals/8f/ba/cb/8fbacbd464e996966eb9d4a6b7a9c21e.jpg");
+    background-repeat: repeat;
+    background-position: center;
+    h2 {
+        padding: 5px 10px;
+        border-radius: 10px;
+        opacity: 0.5;
+        font-size: 20px;
+        background-color: lightgray;
     }
 }
