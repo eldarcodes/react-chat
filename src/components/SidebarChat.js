@@ -2,13 +2,34 @@ import React, {useState, useEffect} from 'react'
 import {Avatar} from '@material-ui/core'
 import '../scss/SidebarChat.scss'
 import db from './../firebase/firebase'
-import {Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import AddIcon from '@material-ui/icons/Add'
 
-const SidebarChat = ({addNewChat, id, name}) => {
-  const [seed, setSeed] = useState('')
+const SidebarChat = ({addNewChat, id, name, color}) => {
   const [message, setMessages] = useState([])
-
+  const colors = [
+    '#1abc9c',
+    '#2ecc71',
+    '#3498db',
+    '#9b59b6',
+    '#34495e',
+    '#8e44ad',
+    '#e74c3c',
+    '#95a5a6',
+    '#d35400',
+    '#f1c40f',
+    '#16a085',
+    '#0abde3',
+    '#10ac84',
+    '#00d2d3',
+    '#54a0ff',
+    '#5f27cd',
+    '#c8d6e5',
+    '#576574',
+    '#01a3a4',
+    '#ff9ff3',
+    '#feca57',
+  ]
   useEffect(() => {
     if (id) {
       db.collection('rooms')
@@ -24,18 +45,17 @@ const SidebarChat = ({addNewChat, id, name}) => {
   const createChat = () => {
     const roomName = prompt('Введите название комнаты')
     if (roomName) {
-      db.collection('rooms').add({name: roomName})
+      db.collection('rooms').add({
+        name: roomName,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      })
     }
   }
 
-  const randomColor = () => {
-    return '#' + (((1 << 24) * Math.random()) | 0).toString(16)
-  }
-
   return !addNewChat ? (
-    <Link to={`/rooms/${id}`}>
+    <NavLink activeClassName="activeLink" to={`/rooms/${id}`}>
       <div className="sidebarChat">
-        <Avatar style={{backgroundColor: `${randomColor()}`}} />
+        <Avatar style={{backgroundColor: color}} />
         <div className="sidebarChat__info">
           <h2>{name}</h2>
           <p className="old__message">
@@ -43,10 +63,10 @@ const SidebarChat = ({addNewChat, id, name}) => {
           </p>
         </div>
       </div>
-    </Link>
+    </NavLink>
   ) : (
     <div className="sidebarChat" onClick={createChat}>
-      <h2>Добавить новый чат</h2>
+      <h2 className="addChat">Добавить новый чат</h2>
       <AddIcon />
     </div>
   )

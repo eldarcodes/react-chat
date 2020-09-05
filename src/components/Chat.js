@@ -18,6 +18,7 @@ const Chat = () => {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
   const [roomName, setRoomName] = useState('')
+  const [color, setColor] = useState('')
   const {roomId} = useParams()
   const [{user}, dispatch] = useStateValue()
 
@@ -31,7 +32,10 @@ const Chat = () => {
     if (roomId) {
       db.collection('rooms')
         .doc(roomId)
-        .onSnapshot((snapshot) => setRoomName(snapshot.data().name))
+        .onSnapshot((snapshot) => {
+          setRoomName(snapshot.data().name)
+          setColor(snapshot.data().color)
+        })
     }
     db.collection('rooms')
       .doc(roomId)
@@ -60,7 +64,7 @@ const Chat = () => {
   return (
     <div className="chat">
       <div className="chat__header">
-        <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
+        <Avatar style={{backgroundColor: color}} />
         <div className="chat__headerInfo">
           <h3>{roomName}</h3>
           <p>
