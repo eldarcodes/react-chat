@@ -42,8 +42,12 @@ const Sidebar = () => {
     setSearch(e.target.value)
     titles.forEach((title) => {
       let re = new RegExp(e.target.value, 'gi')
-      if (e.target.value.search(/` ! @ # $ % ^ & * ( ) _ + | - = \ { } [ ] : " ; ' < > ? , . /g) == -1) {
-        if (title.querySelector('.room_name').innerHTML.search(re) != -1) {
+      if (
+        e.target.value.search(
+          /` ! @ # $ % ^ & * ( ) _ + | - = { } [ ] : " ; ' < > ? , . /g
+        ) === -1
+      ) {
+        if (title.querySelector('.room_name').innerHTML.search(re) !== -1) {
           title.style.display = 'flex'
         } else {
           title.style.display = 'none'
