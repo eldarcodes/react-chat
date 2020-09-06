@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react'
-import {auth, provider} from '../firebase/firebase'
-import {useStateValue} from './../StateProvider'
-import {actionTypes} from '../reducer'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import {Link} from 'react-router-dom'
+import {auth} from '../firebase/firebase'
+import {actionTypes} from '../reducer'
+import {useStateValue} from './../StateProvider'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-const Login = () => {
+const SignUp = () => {
   const [_, dispatch] = useStateValue()
-  const [isFetching, setIsFetching] = useState(true)
   const [email, setEmail] = useState('')
+  const [isFetching, setIsFetching] = useState(true)
   const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -22,26 +24,31 @@ const Login = () => {
     })
   }, [dispatch])
 
-  const signInWithGoogle = (e) => {
+  const signUp = (e) => {
     e.preventDefault()
     auth
-      .signInWithPopup(provider)
-      .then((result) => {
+      .createUserWithEmailAndPassword(email, password)
+      .then((res) =>
         dispatch({
           type: actionTypes.SET_USER,
-          user: result.user,
+          user: res.user,
         })
+      )
+      .then(() => {
+        auth.currentUser
+          .updateProfile({
+            displayName: username,
+            photoURL: '',
+          })
+
+          .catch((error) => {
+            alert(error)
+          })
       })
-      .catch((e) => console.log(e.message))
+      .catch((err) => alert(err))
   }
-
-  const signInWithPassword = (e) => {
-    e.preventDefault()
-    auth.signInWithEmailAndPassword(email, password).catch((err) => alert(err))
-  }
-
   return (
-    <div className="login auth__wrapper">
+    <div className="auth__wrapper">
       {!isFetching ? (
         <main>
           <div className="auth-form">
@@ -51,16 +58,23 @@ const Login = () => {
                 alt=""
               />
             </div>
-            <form onSubmit={signInWithPassword}>
+            <form onSubmit={signUp}>
               <div className="auth-form-header">
-                <h1>Sign in to Chat</h1>
+                <h1>Create your account</h1>
               </div>
               <div className="auth-form-body">
+                <label>Username</label>
+                <input
+                  required
+                  autoFocus="autofocus"
+                  onChange={(e) => setUsername(e.target.value)}
+                  type="text"
+                  className="form-control input-block"
+                />
                 <label> Email address </label>
                 <input
                   required
                   onChange={(e) => setEmail(e.target.value)}
-                  autoFocus="autofocus"
                   type="email"
                   className="form-control input-block"
                 />
@@ -74,23 +88,12 @@ const Login = () => {
                 <input
                   type="submit"
                   className="btn btn-primary btn-block"
-                  value="Sign in"
+                  value="Create account"
                 />
-                <button
-                  onClick={signInWithGoogle}
-                  className="btn btn-google btn-block"
-                >
-                  <img
-                    src="https://developers.google.com/identity/images/g-logo.png"
-                    alt=""
-                  />
-                  Sign in with google
-                </button>
               </div>
             </form>
             <p className="create-account-callout mt-3">
-              New to Chat?
-              <Link to="/join">Create an account</Link>.
+              Already have an account? <Link to="/">Sign in</Link>
             </p>
           </div>
         </main>
@@ -101,4 +104,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default SignUp

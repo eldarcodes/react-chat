@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef} from 'react'
-import '../scss/Chat.scss'
 import {Avatar} from '@material-ui/core'
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined'
 import MoreVertIcon from '@material-ui/icons/MoreVert'

@@ -1,9 +1,4 @@
 .login {
-    background-color: #fff;
-    height: 100vh;
-    width: 100vw;
-    display: grid;
-    place-items: center;
     &__container {
         padding: 100px;
         text-align: center;
@@ -26,104 +21,159 @@
     }
 }
 
-@media (max-width: 1250px) {
-    .sidebarChat {
-        .addChat {
-            font-size: 22px;
-        }
-    }
-}
-@media (max-width: 1150px) {
-    .sidebarChat {
-        .addChat {
-            font-size: 20px;
-        }
-    }
+.auth__wrapper {
+    background-color: #fff;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    place-items: center;
 }
 
-@media (max-width: 940px) {
-    .chat__header {
+.auth-form {
+    padding: 0 15px;
+    width: 340px;
+    margin: 0 auto;
+    img {
+        display: block;
+    }
+    &-header {
+        margin-bottom: 15px;
+        color: #333;
+        text-align: center;
+        text-shadow: none;
+        background-color: initial;
+        border: 0;
+        h1 {
+            font-size: 30px;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+    }
+    &-body {
+        border-top: 1px solid #d8dee2;
+        border-radius: 5px;
         padding: 20px;
-    }
-    .chat__headerInfo p {
         font-size: 14px;
-    }
-}
-
-@media (max-width: 900px) {
-    .sidebarChat {
-        justify-content: center;
-        &__info {
-            display: none;
+        background-color: #fff;
+        border: 1px solid #d8dee2;
+        margin-top: 16px;
+        .input-block {
+            margin-top: 5px;
+            margin-bottom: 15px;
+            display: block;
+            width: 90%;
         }
-        & h2 {
-            display: none;
-        }
-        & svg {
-            display: block !important;
-        }
-    }
-    .chat__header {
-        padding: 16px 16px 17px 16px;
-    }
-    .sidebar {
-        flex: 0;
-        width: 200px;
-        &__headerRight {
-            justify-content: center;
-        }
-        &__headerRight button {
-            display: none;
-        }
-        &__header {
-            padding-bottom: 0;
-            justify-content: center !important;
-            flex-direction: column;
-            align-items: center;
-            .exit {
-                display: block !important;
+        .form-control {
+            padding: 5px 14px;
+            font-size: 14px;
+            line-height: 20px;
+            color: #24292e;
+            vertical-align: middle;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            outline: none;
+            box-shadow: inset 0 1px 0 rgba(225, 228, 232, 0.2);
+            &:focus {
+                border-color: #0366d6;
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
             }
         }
-
-        &__search {
-            display: none;
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            position: relative;
+            display: inline-block;
+            padding: 7px 16px;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 20px;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid;
+            border-radius: 6px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #2ea44f;
+            border-color: rgba(27, 31, 35, 0.15);
+            box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1), inset 0 1px 0 hsla(0, 0%, 100%, 0.03);
+            &:hover {
+                background-color: #2c974b;
+            }
+            &:focus {
+                outline: 1px dotted transparent;
+                outline-offset: 2px;
+                box-shadow: 0 0 0 3px rgba(46, 164, 79, 0.4);
+            }
+        }
+        .btn-google {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            background-color: #fff;
+            border-color: rgba(27, 31, 35, 0.15);
+            box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1), inset 0 1px 0 hsla(0, 0%, 100%, 0.03);
+            padding-left: 46px;
+            &:focus {
+                outline: 1px dotted transparent;
+                outline-offset: 2px;
+                box-shadow: 0 0 0 3px rgba(128, 128, 128, 0.4);
+            }
+            img {
+                position: absolute;
+                height: 22px;
+                left: 16px;
+                padding: 7px 16px 7px 5px;
+                margin-right: 20px;
+                border-right: 1px solid lightgray;
+            }
         }
     }
-    .chat {
-        flex: 1;
-        &__headerRight {
-            display: none;
-        }
+    label {
+        display: block;
+        margin-bottom: 7px;
+        text-align: left;
+        font-weight: 600;
     }
 }
 
-@media (max-width: 520px) {
-    .chat__headerInfo p {
-        font-size: 12px;
-    }
-    .chat__header {
-        padding: 18px 18px 18px 18px;
-    }
-    .login__container {
-        padding: 50px;
-        .MuiButton-label {
-            font-size: 12px;
-        }
+.auth_image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    img {
+        width: 150px;
+        height: 150px;
     }
 }
-@media (max-width: 480px) {
-    .chat__header {
-        padding: 20px 20px 20px 20px;
-    }
-    .mic_icon {
-        display: none !important;
-    }
-    .chat__headerInfo {
-        p {
-            font-size: 9px;
-        }
-    }
-    .emotio {
-        display: none !important;
+
+.create-account-callout {
+    padding: 15px 20px;
+    text-align: center;
+    border: 1px solid #d8dee2;
+    border-radius: 5px;
+    margin-top: 16px;
+    a {
+        color: #0366d6;
+        text-decoration: none;
+        margin-left: 5px;
     }
 }
