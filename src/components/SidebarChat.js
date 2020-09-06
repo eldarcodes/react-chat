@@ -53,10 +53,10 @@ const SidebarChat = ({addNewChat, id, name, color}) => {
 
   return !addNewChat ? (
     <NavLink activeClassName="activeLink" to={`/rooms/${id}`}>
-      <div className="sidebarChat">
+      <div className="sidebarChat rooms">
         <Avatar style={{backgroundColor: color}} />
         <div className="sidebarChat__info">
-          <h2>{name}</h2>
+          <h2 className="room_name">{name}</h2>
           <p className="old__message">
             {message[0]?.message ? message[0]?.message : ' '}
           </p>
