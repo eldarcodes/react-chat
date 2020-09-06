@@ -12,6 +12,7 @@ import {auth} from '../firebase/firebase'
 
 const Sidebar = () => {
   const [rooms, setRooms] = useState([])
+  const [searchInput, setSearch] = useState('')
   const [{user}, dispatch] = useStateValue()
 
   useEffect(() => {
@@ -35,6 +36,22 @@ const Sidebar = () => {
         alert(err)
       })
   }
+
+  const search = (e) => {
+    let titles = document.querySelectorAll('.rooms')
+    setSearch(e.target.value)
+    titles.forEach((title) => {
+      let re = new RegExp(e.target.value, 'gi')
+      if (e.target.value.search(/` ! @ # $ % ^ & * ( ) _ + | - = \ { } [ ] : " ; ' < > ? , . /g) == -1) {
+        if (title.querySelector('.room_name').innerHTML.search(re) != -1) {
+          title.style.display = 'flex'
+        } else {
+          title.style.display = 'none'
+        }
+      }
+    })
+  }
+
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -54,7 +71,12 @@ const Sidebar = () => {
       <div className="sidebar__search">
         <div className="sidebar__searchContainer">
           <SearchOutlinedIcon />
-          <input type="text" placeholder="Найдите или начните новый чат" />
+          <input
+            value={searchInput}
+            onChange={search}
+            type="text"
+            placeholder="Найдите или начните новый чат"
+          />
         </div>
       </div>
       <div className="sidebar__chats">
