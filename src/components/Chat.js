@@ -11,16 +11,26 @@ import db from './../firebase/firebase'
 import {useStateValue} from './../StateProvider'
 import firebase from 'firebase'
 import SendIcon from '@material-ui/icons/Send'
+import Picker from 'emoji-picker-react'
 
 const Chat = () => {
   const [input, setInput] = useState('')
+  const [popup, setPopup] = useState(false)
   const [messages, setMessages] = useState([])
   const [roomName, setRoomName] = useState('')
   const [color, setColor] = useState('')
+
+  const [chosenEmoji, setChosenEmoji] = useState(null)
+
   const {roomId} = useParams()
   const [{user}, dispatch] = useStateValue()
 
   const el = useRef(null)
+
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject)
+    setInput(input + emojiObject.emoji)
+  }
 
   useEffect(() => {
     el.current.scrollIntoView({block: 'end', behavior: 'auto'})
@@ -100,9 +110,19 @@ const Chat = () => {
         <div id="el" ref={el}></div>
       </div>
       <div className="chat__footer">
-        <IconButton className="emotio">
+        <IconButton onClick={() => setPopup(!popup)}>
           <InsertEmoticonIcon />
         </IconButton>
+
+        {popup && (
+          <Picker
+            disableSkinTonePicker={true}
+            disableSearchBar={true}
+            disableAutoFocus={true}
+            preload={true}
+            onEmojiClick={onEmojiClick}
+          />
+        )}
         <form action="">
           <input
             value={input}

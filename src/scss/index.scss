@@ -23,6 +23,11 @@ a {
     text-decoration: none;
     color: #000;
 }
+.emoji-picker-react {
+    position: absolute !important;
+    left: 10px;
+    top: -327px;
+}
 
 .google_signin {
     background-image: url("https://img-authors.flaticon.com/google.jpg");
