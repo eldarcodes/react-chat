@@ -30,6 +30,7 @@ const Chat = () => {
   const onEmojiClick = (event, emojiObject) => {
     setChosenEmoji(emojiObject)
     setInput(input + emojiObject.emoji)
+    setPopup(false)
   }
 
   useEffect(() => {
@@ -56,10 +57,12 @@ const Chat = () => {
 
   const sendMessage = (e) => {
     e.preventDefault()
+    console.log(user)
     if (input) {
       db.collection('rooms').doc(roomId).collection('messages').add({
         name: user.displayName,
         message: input,
+        email: user.email,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })
     }
@@ -97,7 +100,7 @@ const Chat = () => {
           <p
             key={i}
             className={`chat__message ${
-              message.name === user.displayName && 'chat__reciever'
+              message.email === user.email && 'chat__reciever'
             }`}
           >
             <span className="chat__name">{message.name}</span>
