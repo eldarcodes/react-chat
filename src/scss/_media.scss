@@ -1,0 +1,101 @@
+@media (max-width: 1250px) {
+    .sidebarChat {
+        .addChat {
+            font-size: 22px;
+        }
+    }
+}
+@media (max-width: 1150px) {
+    .sidebarChat {
+        .addChat {
+            font-size: 20px;
+        }
+    }
+}
+
+@media (max-width: 940px) {
+    .chat__header {
+        padding: 20px;
+    }
+    .chat__headerInfo p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 900px) {
+    .sidebarChat {
+        justify-content: center;
+        &__info {
+            display: none;
+        }
+        & h2 {
+            display: none;
+        }
+        & svg {
+            display: block !important;
+        }
+    }
+    .chat__header {
+        padding: 16px 16px 17px 16px;
+    }
+    .sidebar {
+        flex: 0;
+        width: 200px;
+        &__headerRight {
+            justify-content: center;
+        }
+        &__headerRight button {
+            display: none;
+        }
+        &__header {
+            padding-bottom: 0;
+            justify-content: center !important;
+            flex-direction: column;
+            align-items: center;
+            .exit {
+                display: block !important;
+            }
+        }
+
+        &__search {
+            display: none;
+        }
+    }
+    .chat {
+        flex: 1;
+        &__headerRight {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: 520px) {
+    .chat__headerInfo p {
+        font-size: 12px;
+    }
+    .chat__header {
+        padding: 18px 18px 18px 18px;
+    }
+    .login__container {
+        padding: 50px;
+        .MuiButton-label {
+            font-size: 12px;
+        }
+    }
+}
+@media (max-width: 480px) {
+    .chat__header {
+        padding: 20px 20px 20px 20px;
+    }
+    .mic_icon {
+        display: none !important;
+    }
+    .chat__headerInfo {
+        p {
+            font-size: 9px;
+        }
+    }
+    .emotio {
+        display: none !important;
+    }
+}

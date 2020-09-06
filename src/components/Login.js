@@ -1,15 +1,14 @@
 import React, {useState} from 'react'
-import '../scss/Login.scss'
-import {Button} from '@material-ui/core'
 import {auth, provider} from '../firebase/firebase'
 import {useStateValue} from './../StateProvider'
 import {actionTypes} from '../reducer'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import TextField from '@material-ui/core/TextField'
 
 const Login = () => {
   const [_, dispatch] = useStateValue()
   const [isFetching, setIsFetching] = useState(true)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   auth.onAuthStateChanged((user) => {
     if (user) {
@@ -21,7 +20,8 @@ const Login = () => {
     setIsFetching(false)
   })
 
-  const signIn = () => {
+  const signInWithGoogle = (e) => {
+    e.preventDefault()
     auth
       .signInWithPopup(provider)
       .then((result) => {
@@ -33,35 +33,15 @@ const Login = () => {
       .catch((e) => console.log(e.message))
   }
 
+  const signInWithPassword = (e) => {
+    e.preventDefault()
+    console.log(email, password)
+    // auth.signInWithEmailAndPassword(email, password)
+  }
+
   return (
     <div className="login">
       {!isFetching ? (
-        // <div className="login__container">
-        //   <img
-        //     src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/597px-WhatsApp.svg.png"
-        //     alt=""
-        //   />
-
-        //   <div className="login__text">
-        //     <h1>Войти</h1>
-        //   </div>
-        //   <form>
-        //     <div>
-        //       <TextField
-        //         id="outlined-basic"
-        //         label="Outlined"
-        //         variant="outlined"
-        //       />
-        //     </div>
-        //     <div>
-        //       <TextField
-        //         id="outlined-basic"
-        //         label="Outlined"
-        //         variant="outlined"
-        //       />
-        //     </div>
-        //   </form>
-        //   <div className="google_signin"></div>
         <main>
           <div className="auth-form">
             <div className="auth_image">
@@ -70,37 +50,43 @@ const Login = () => {
                 alt=""
               />
             </div>
-            <form action="/">
+            <form onSubmit={signInWithPassword}>
               <div className="auth-form-header">
                 <h1>Sign in to Chat</h1>
               </div>
               <div className="auth-form-body">
-                <label> Username or email address </label>
+                <label> Email address </label>
                 <input
-                  authfocus="autofocus"
-                  type="text"
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoFocus="autofocus"
+                  type="email"
                   className="form-control input-block"
                 />
                 <label>Password</label>
-                <input type="password" className="form-control input-block" />
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  className="form-control input-block"
+                />
                 <input
                   type="submit"
                   className="btn btn-primary btn-block"
                   value="Sign in"
                 />
-                <div>
-                  <button type="submit" className="btn btn-google btn-block">
-                    <img
-                      src="https://developers.google.com/identity/images/g-logo.png"
-                      alt=""
-                    />
-                    Sign in with google
-                  </button>
-                </div>
+                <button
+                  onClick={signInWithGoogle}
+                  className="btn btn-google btn-block"
+                >
+                  <img
+                    src="https://developers.google.com/identity/images/g-logo.png"
+                    alt=""
+                  />
+                  Sign in with google
+                </button>
               </div>
             </form>
-            <p class="create-account-callout mt-3">
-              New to GitHub?
+            <p className="create-account-callout mt-3">
+              New to Chat?
               <a href="#">Create an account</a>.
             </p>
           </div>

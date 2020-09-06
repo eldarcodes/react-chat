@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import {Avatar} from '@material-ui/core'
-import '../scss/SidebarChat.scss'
 import db from './../firebase/firebase'
 import {NavLink} from 'react-router-dom'
 import AddIcon from '@material-ui/icons/Add'

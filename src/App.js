@@ -1,5 +1,4 @@
 import React from 'react'
-import './scss/App.scss'
 import Sidebar from './components/Sidebar'
 import Chat from './components/Chat'
 import {Route, Switch, Redirect} from 'react-router-dom'
