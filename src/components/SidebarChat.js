@@ -3,8 +3,10 @@ import {Avatar} from '@material-ui/core'
 import db from './../firebase/firebase'
 import {NavLink} from 'react-router-dom'
 import AddIcon from '@material-ui/icons/Add'
+import {useStateValue} from './../StateProvider'
 
 const SidebarChat = ({addNewChat, id, name, color}) => {
+  const [{user}, dispatch] = useStateValue()
   const [message, setMessages] = useState([])
   const colors = [
     '#1abc9c',
@@ -47,12 +49,20 @@ const SidebarChat = ({addNewChat, id, name, color}) => {
       db.collection('rooms').add({
         name: roomName,
         color: colors[Math.floor(Math.random() * colors.length)],
+        creator: user.email,
       })
     }
   }
 
   return !addNewChat ? (
-    <NavLink activeClassName="activeLink" to={`/rooms/${id}`}>
+    <NavLink
+      onClick={() => {
+        document.querySelector('.sidebar').classList.remove('open')
+        document.querySelector('.sidebar').classList.add('close')
+      }}
+      activeClassName="activeLink"
+      to={`/rooms/${id}`}
+    >
       <div className="sidebarChat rooms">
         <Avatar style={{backgroundColor: color}} />
         <div className="sidebarChat__info">
@@ -64,9 +74,9 @@ const SidebarChat = ({addNewChat, id, name, color}) => {
       </div>
     </NavLink>
   ) : (
-    <div className="sidebarChat" onClick={createChat}>
+    <div className="sidebarChat plus__icon" onClick={createChat}>
       <h2 className="addChat">Добавить новый чат</h2>
-      <AddIcon className="addChatIcon"/>
+      <AddIcon className="addChatIcon" />
     </div>
   )
 }

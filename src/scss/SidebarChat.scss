@@ -4,7 +4,7 @@
     cursor: pointer;
     border-bottom: 1px solid lightgray;
     &:hover {
-        background-color: lightgray;
+        background-color: rgba($color: #000000, $alpha: 0.05);
     }
     &__info > h2 {
         font-size: 16px;
@@ -31,6 +31,7 @@
     white-space: nowrap;
 }
 
-.activeLink div {
-    background-color: lightgray;
+.activeLink .rooms {
+    background-color: #0984e3;
+    color: #fff;
 }

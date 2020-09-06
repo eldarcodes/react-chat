@@ -28,7 +28,10 @@
         &__info {
             display: none;
         }
-        & h2 {
+        & .room__name {
+            display: none;
+        }
+        & .addChat {
             display: none;
         }
         & svg {
@@ -89,10 +92,10 @@
         padding: 20px 20px 20px 20px;
     }
     .mic_icon {
-        display: none !important;
+        display: block !important;
     }
     .send_mes {
-        display: none !important;
+        display: block !important;
     }
     .chat__headerInfo {
         p {
@@ -101,5 +104,68 @@
     }
     .emotio {
         display: none !important;
+    }
+    .sidebar {
+        width: 0;
+        max-height: 90%;
+        position: absolute;
+        z-index: 100;
+        background-color: white;
+        &__header {
+            visibility: hidden;
+        }
+    }
+    .menu {
+        display: block !important;
+    }
+
+    .close {
+        transition: width 0.2s linear;
+    }
+
+    .open {
+        width: 90%;
+        height: 90%;
+        transition: width 0.2s linear;
+        .sidebar__header {
+            visibility: visible;
+        }
+        .sidebar {
+            flex: 0;
+
+            .plus__icon {
+                justify-content: center;
+            }
+            &Chat.rooms {
+                justify-content: start;
+            }
+            &Chat__info {
+                display: block !important;
+            }
+            & h2 {
+                display: block;
+            }
+            &__headerRight {
+                justify-content: space-between;
+            }
+            &__headerRight button {
+                display: block;
+            }
+            &__header {
+                display: flex;
+                padding-bottom: 20px;
+                justify-content: space-between !important;
+                flex-direction: row;
+                align-items: center;
+                .exit {
+                    display: block !important;
+                    padding: 12px;
+                }
+            }
+
+            &__search {
+                display: block;
+            }
+        }
     }
 }

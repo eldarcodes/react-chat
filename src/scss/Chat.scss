@@ -44,17 +44,24 @@
 .chat__message {
     position: relative;
     font-size: 16px;
-    padding: 10px;
+    padding: 10px 50px 10px 10px;
     background-color: #fff;
     border-radius: 10px;
     width: fit-content;
     margin-bottom: 30px;
     word-break: break-all;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .chat__timestamp {
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
     margin-left: 10px;
-    font-size: xx-small;
+    font-size: 12px;
+    color: gray;
 }
 
 .chat__name {
@@ -62,6 +69,7 @@
     top: -15px;
     font-weight: 800;
     font-size: xx-small;
+    white-space: nowrap;
 }
 
 .chat__reciever {

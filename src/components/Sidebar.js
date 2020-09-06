@@ -18,9 +18,10 @@ const Sidebar = () => {
   useEffect(() => {
     const unsubscribe = db
       .collection('rooms')
-      .onSnapshot((snapshot) =>
+      .orderBy('name', 'desc')
+      .onSnapshot((snapshot) => {
         setRooms(snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()})))
-      )
+      })
     return () => {
       unsubscribe()
     }
@@ -57,7 +58,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="sidebar">
+    <div className="sidebar close">
       <div className="sidebar__header">
         <Avatar src={user.photoURL} />
         <div className="sidebar__headerRight">

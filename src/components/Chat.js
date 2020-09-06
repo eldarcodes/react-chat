@@ -12,6 +12,7 @@ import {useStateValue} from './../StateProvider'
 import firebase from 'firebase'
 import SendIcon from '@material-ui/icons/Send'
 import Picker from 'emoji-picker-react'
+import MenuIcon from '@material-ui/icons/Menu'
 
 const Chat = () => {
   const [input, setInput] = useState('')
@@ -30,7 +31,6 @@ const Chat = () => {
   const onEmojiClick = (event, emojiObject) => {
     setChosenEmoji(emojiObject)
     setInput(input + emojiObject.emoji)
-    setPopup(false)
   }
 
   useEffect(() => {
@@ -58,6 +58,7 @@ const Chat = () => {
   const sendMessage = (e) => {
     e.preventDefault()
     console.log(user)
+    setPopup(false)
     if (input) {
       db.collection('rooms').doc(roomId).collection('messages').add({
         name: user.displayName,
@@ -68,9 +69,20 @@ const Chat = () => {
     }
     setInput('')
   }
+
+  const menu = () => {
+    document.querySelector('.sidebar').classList.toggle('close')
+    document.querySelector('.sidebar').classList.toggle('open')
+  }
+
   return (
     <div className="chat">
       <div className="chat__header">
+        <MenuIcon
+          className="menu"
+          style={{marginRight: '15px', display: 'none'}}
+          onClick={menu}
+        />
         <Avatar style={{backgroundColor: color}} />
         <div className="chat__headerInfo">
           <h3>{roomName}</h3>
@@ -100,23 +112,23 @@ const Chat = () => {
           <p
             key={i}
             className={`chat__message ${
-              message.email === user.email && 'chat__reciever'
+              message.email === user.email ? 'chat__reciever' : ''
             }`}
           >
-            <span className="chat__name">{message.name}</span>
+            {user.email !== message.email && (
+              <span className="chat__name">{message.name}</span>
+            )}
             {message.message}
             <span className="chat__timestamp">
-              {new Date(message.timestamp?.toDate()).toUTCString()}
+              {new Date(message.timestamp?.toDate())
+                .toUTCString()
+                .slice(17, -7)}
             </span>
           </p>
         ))}
         <div id="el" ref={el}></div>
       </div>
       <div className="chat__footer">
-        <IconButton onClick={() => setPopup(!popup)}>
-          <InsertEmoticonIcon />
-        </IconButton>
-
         {popup && (
           <Picker
             disableSkinTonePicker={true}
@@ -143,6 +155,9 @@ const Chat = () => {
               <SendIcon />
             </IconButton>
           </button>
+          <IconButton onClick={() => setPopup(!popup)}>
+            <InsertEmoticonIcon />
+          </IconButton>
         </form>
         <IconButton className="mic_icon">
           <MicIcon />
