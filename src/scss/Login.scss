@@ -1,9 +1,4 @@
 .login {
-    background-color: #fff;
-    height: 100vh;
-    width: 100vw;
-    display: grid;
-    place-items: center;
     &__container {
         padding: 100px;
         text-align: center;
@@ -24,6 +19,14 @@
             }
         }
     }
+}
+
+.auth__wrapper {
+    background-color: #fff;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    place-items: center;
 }
 
 .auth-form {
