@@ -74,6 +74,17 @@ const Chat = () => {
     document.querySelector('.sidebar').classList.toggle('close')
     document.querySelector('.sidebar').classList.toggle('open')
   }
+  const isLink = (str) => {
+    if (
+      str.search(
+        /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/gi
+      ) === -1
+    ) {
+      return false
+    } else {
+      return true
+    }
+  }
 
   return (
     <div className="chat">
@@ -118,7 +129,18 @@ const Chat = () => {
             {user.email !== message.email && (
               <span className="chat__name">{message.name}</span>
             )}
-            {message.message}
+            {isLink(message.message) ? (
+              <a
+                rel="noopener noreferrer"
+                className="message__link"
+                href={message.message}
+                target="_blank"
+              >
+                <span> {message.message}</span>
+              </a>
+            ) : (
+              message.message
+            )}
             <span className="chat__timestamp">
               {new Date(message.timestamp?.toDate())
                 .toUTCString()
