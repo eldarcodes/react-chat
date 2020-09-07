@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add'
 import {useStateValue} from './../StateProvider'
 import {colors} from './../utils/common'
 
-const SidebarChat = ({addNewChat, id, name, color}) => {
+const SidebarChat = ({addNewChat, id, name, color, rooms}) => {
   const [{user}, dispatch] = useStateValue()
   const [message, setMessages] = useState([])
 
@@ -25,11 +25,16 @@ const SidebarChat = ({addNewChat, id, name, color}) => {
   const createChat = () => {
     const roomName = prompt('Введите название комнаты')
     if (roomName) {
-      db.collection('rooms').add({
-        name: roomName,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        creator: user.email,
-      })
+      db.collection('rooms')
+        .get()
+        .then((snap) => {
+          db.collection('rooms').add({
+            name: roomName,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            creator: user.email,
+            id: snap.size + 1,
+          })
+        })
     }
   }
 

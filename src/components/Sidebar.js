@@ -16,11 +16,10 @@ const Sidebar = () => {
   const [rooms, setRooms] = useState([])
   const [searchInput, setSearch] = useState('')
   const [{user}, dispatch] = useStateValue()
-
   useEffect(() => {
     const unsubscribe = db
       .collection('rooms')
-      .orderBy('name', 'desc')
+      .orderBy('id', 'desc')
       .onSnapshot((snapshot) => {
         setRooms(snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()})))
       })
@@ -101,6 +100,7 @@ const Sidebar = () => {
             id={room.id}
             color={room.data.color}
             name={room.data.name}
+            rooms={rooms}
           />
         ))}
       </div>
