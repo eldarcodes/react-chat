@@ -28,7 +28,7 @@ a {
     right: 60px;
     top: -327px;
     border-radius: 10px;
-    box-shadow: -1px 4px 20px -5px rgba(0, 0, 0, 0.7) !important; 
+    box-shadow: -1px 4px 20px -5px rgba(0, 0, 0, 0.7) !important;
 }
 
 .google_signin {
@@ -47,6 +47,12 @@ a {
     background-image: url("https://i.pinimg.com/originals/8f/ba/cb/8fbacbd464e996966eb9d4a6b7a9c21e.jpg");
     background-repeat: repeat;
     background-position: center;
+    & h2:hover {
+        background-color: #0984e3;
+        color: #fff;
+        cursor: pointer;
+        opacity: 1;
+    }
     h2 {
         padding: 8px 17px;
         border-radius: 10px;

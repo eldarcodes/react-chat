@@ -10,6 +10,11 @@ import SignUp from './components/SignUp'
 const App = () => {
   const [{user}, dispatch] = useStateValue()
 
+  const menu = () => {
+    document.querySelector('.sidebar').classList.toggle('close')
+    document.querySelector('.sidebar').classList.toggle('open')
+  }
+
   return (
     <div className="app">
       {!user ? (
@@ -35,7 +40,7 @@ const App = () => {
             <Route path="/rooms/:roomId" component={Chat} />
             <Route path="/">
               <div className="choose__chat">
-                <h2>Выберите чат</h2>
+                <h2 onClick={menu}>Выберите чат</h2>
               </div>
             </Route>
           </Switch>
