@@ -10,6 +10,7 @@ const Login = () => {
   const [isFetching, setIsFetching] = useState(true)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -32,7 +33,7 @@ const Login = () => {
           user: result.user,
         })
       })
-      .catch((e) => console.log(e.message))
+      .catch((e) => alert(e.message))
   }
 
   const signInWithPassword = (e) => {

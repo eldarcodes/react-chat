@@ -4,33 +4,12 @@ import db from './../firebase/firebase'
 import {NavLink} from 'react-router-dom'
 import AddIcon from '@material-ui/icons/Add'
 import {useStateValue} from './../StateProvider'
+import {colors} from './../utils/common'
 
 const SidebarChat = ({addNewChat, id, name, color}) => {
   const [{user}, dispatch] = useStateValue()
   const [message, setMessages] = useState([])
-  const colors = [
-    '#1abc9c',
-    '#2ecc71',
-    '#3498db',
-    '#9b59b6',
-    '#34495e',
-    '#8e44ad',
-    '#e74c3c',
-    '#95a5a6',
-    '#d35400',
-    '#f1c40f',
-    '#16a085',
-    '#0abde3',
-    '#10ac84',
-    '#00d2d3',
-    '#54a0ff',
-    '#5f27cd',
-    '#c8d6e5',
-    '#576574',
-    '#01a3a4',
-    '#ff9ff3',
-    '#feca57',
-  ]
+
   useEffect(() => {
     if (id) {
       db.collection('rooms')

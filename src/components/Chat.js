@@ -13,12 +13,16 @@ import firebase from 'firebase'
 import SendIcon from '@material-ui/icons/Send'
 import Picker from 'emoji-picker-react'
 import MenuIcon from '@material-ui/icons/Menu'
+import EditIcon from '@material-ui/icons/Edit'
+import {menu, isLink} from './../utils/common'
 
 const Chat = () => {
   const [input, setInput] = useState('')
+  const [changeName, setChangeName] = useState(false)
   const [popup, setPopup] = useState(false)
   const [messages, setMessages] = useState([])
   const [roomName, setRoomName] = useState('')
+  const [newRoomName, setNewRoomName] = useState('')
   const [color, setColor] = useState('')
 
   const [chosenEmoji, setChosenEmoji] = useState(null)
@@ -27,11 +31,6 @@ const Chat = () => {
   const [{user}, dispatch] = useStateValue()
 
   const el = useRef(null)
-
-  const onEmojiClick = (event, emojiObject) => {
-    setChosenEmoji(emojiObject)
-    setInput(input + emojiObject.emoji)
-  }
 
   useEffect(() => {
     el.current.scrollIntoView({block: 'end', behavior: 'auto'})
@@ -43,6 +42,7 @@ const Chat = () => {
         .doc(roomId)
         .onSnapshot((snapshot) => {
           setRoomName(snapshot.data().name)
+          setNewRoomName(snapshot.data().name)
           setColor(snapshot.data().color)
         })
     }
@@ -57,7 +57,6 @@ const Chat = () => {
 
   const sendMessage = (e) => {
     e.preventDefault()
-    console.log(user)
     setPopup(false)
     if (input) {
       db.collection('rooms').doc(roomId).collection('messages').add({
@@ -70,19 +69,24 @@ const Chat = () => {
     setInput('')
   }
 
-  const menu = () => {
-    document.querySelector('.sidebar').classList.toggle('close')
-    document.querySelector('.sidebar').classList.toggle('open')
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject)
+    setInput(input + emojiObject.emoji)
   }
-  const isLink = (str) => {
-    if (
-      str.search(
-        /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/gi
-      ) === -1
-    ) {
-      return false
-    } else {
-      return true
+
+  const changeRoomName = () => {
+    setChangeName(!changeName)
+    if (roomName !== newRoomName && newRoomName) {
+      db.collection('rooms')
+        .doc(roomId)
+        .set({
+          name: newRoomName,
+          creator: user.email,
+          color,
+        })
+        .catch(function (error) {
+          console.error('Error writing document: ', error)
+        })
     }
   }
 
@@ -96,7 +100,30 @@ const Chat = () => {
         />
         <Avatar style={{backgroundColor: color}} />
         <div className="chat__headerInfo">
-          <h3>{roomName}</h3>
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            {changeName ? (
+              <input
+                autoFocus
+                onKeyDown={(e) => e.key === 'Enter' && changeRoomName()}
+                className="form-control change__title-chat"
+                onBlur={changeRoomName}
+                onChange={(e) => setNewRoomName(e.target.value)}
+                value={newRoomName}
+                type="text"
+              />
+            ) : (
+              <h3>{roomName}</h3>
+            )}
+            <IconButton
+              onClick={() => {
+                setNewRoomName(roomName)
+                setChangeName(!changeName)
+              }}
+              style={{padding: '5px', marginLeft: '10px'}}
+            >
+              <EditIcon />
+            </IconButton>
+          </div>
           <p>
             Был в сети:
             {messages.length

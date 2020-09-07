@@ -120,7 +120,8 @@
     }
 
     .close {
-        transition: width 0.2s linear;
+        transition: all 0.2s linear;
+        height: 90%;
     }
     .emoji-picker-react {
         right: 10px;
@@ -129,7 +130,7 @@
     .open {
         width: 90%;
         height: 90%;
-        transition: width 0.2s linear;
+        transition: all 0.2s linear;
         .close-icon {
             display: block !important;
         }

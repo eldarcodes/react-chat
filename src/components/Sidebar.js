@@ -10,6 +10,7 @@ import {useStateValue} from './../StateProvider'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import {auth} from '../firebase/firebase'
 import CloseIcon from '@material-ui/icons/Close'
+import {menu} from './../utils/common'
 
 const Sidebar = () => {
   const [rooms, setRooms] = useState([])
@@ -56,11 +57,6 @@ const Sidebar = () => {
         }
       }
     })
-  }
-
-  const menu = () => {
-    document.querySelector('.sidebar').classList.toggle('close')
-    document.querySelector('.sidebar').classList.toggle('open')
   }
 
   return (
