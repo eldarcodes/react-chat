@@ -34,7 +34,7 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
             color: colors[Math.floor(Math.random() * colors.length)],
             creator: user.email,
             id: snap.size + 1,
-            isPinned: false,
+            isPinned: [],
           })
         })
     }
@@ -42,19 +42,60 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
   const pinToTop = () => {
     db.collection('rooms')
       .doc(id)
-      .set(
-        {
-          isPinned: !isPinned,
-          id: +roomNumber >= 1000 ? +roomNumber - 1000 : +roomNumber + 1000,
-        },
-        {merge: true}
-      )
+      .get()
+      .then((snap) => {
+        let result = []
+        snap.data().isPinned.forEach((item) => {
+          if (!result.includes(item)) {
+            result.push(item)
+          }
+        })
+        let isFind = false
+        result.forEach((res) => {
+          if (res === user.uid) {
+            isFind = true
+            let index = result.indexOf(user.uid)
+            result.splice(index, 1)
+            db.collection('rooms').doc(id).set(
+              {
+                isPinned: result,
+              },
+              {merge: true}
+            )
+            return
+          }
+        })
+        if (!isFind) {
+          db.collection('rooms')
+            .doc(id)
+            .set(
+              {
+                isPinned: [...snap.data().isPinned, user.uid],
+              },
+              {merge: true}
+            )
+        }
+      })
+  }
+
+  const isUserPinnedChat = () => {
+    let pinned = false
+    if (isPinned) {
+      isPinned.forEach((item) => {
+        if (user.uid === item) {
+          pinned = true
+        }
+      })
+    }
+    return pinned
   }
 
   return !addNewChat ? (
-    <LongPress time={600} onPress={() => menu()} onLongPress={() => pinToTop()}>
+    <LongPress time={400} onPress={() => menu()} onLongPress={() => pinToTop()}>
       <NavLink to={`/rooms/${id}`} activeClassName="activeLink">
-        <div className={`sidebarChat rooms ${isPinned && 'isPinned'}`}>
+        <div
+          className={`sidebarChat rooms ${isUserPinnedChat() && 'isPinned'}`}
+        >
           <Avatar style={{backgroundColor: color}} />
           <div className="sidebarChat__info">
             <h2 className="room_name">{name}</h2>

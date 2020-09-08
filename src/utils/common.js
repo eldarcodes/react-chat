@@ -1,5 +1,3 @@
-import {useCallback, useRef, useState} from 'react'
-
 export const menu = () => {
   document.querySelector('.sidebar').classList.toggle('close')
   document.querySelector('.sidebar').classList.toggle('open')

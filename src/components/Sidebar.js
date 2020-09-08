@@ -16,13 +16,17 @@ const Sidebar = () => {
   const [rooms, setRooms] = useState([])
   const [searchInput, setSearch] = useState('')
   const [{user}, dispatch] = useStateValue()
+
   useEffect(() => {
     const unsubscribe = db
       .collection('rooms')
       .orderBy('id', 'desc')
       .onSnapshot((snapshot) => {
-        setRooms(snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()})))
+        setRooms(
+          sortPin(snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()})))
+        )
       })
+
     return () => {
       unsubscribe()
     }
@@ -71,6 +75,31 @@ const Sidebar = () => {
       }
     })
   }
+
+  const sortPin = (testRoom) => {
+    let pinnedRooms = []
+    let unpinnedRooms = []
+    if (testRoom) {
+      testRoom.forEach((room) => {
+        if (room.data.isPinned.length === 0) {
+          unpinnedRooms.push(room)
+        }
+
+        room.data.isPinned.forEach((pin) => {
+          if (user.uid === pin) {
+            pinnedRooms.push(room)
+          } else {
+            unpinnedRooms.push(room)
+          }
+        })
+      })
+    }
+    let newRooms = pinnedRooms.concat(unpinnedRooms)
+    newRooms = Array.from(new Set(newRooms))
+
+    return newRooms
+  }
+
   return (
     <div className="sidebar close">
       <div className="sidebar__header">
