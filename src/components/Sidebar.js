@@ -71,7 +71,6 @@ const Sidebar = () => {
       }
     })
   }
-
   return (
     <div className="sidebar close">
       <div className="sidebar__header">
@@ -114,7 +113,8 @@ const Sidebar = () => {
             id={room.id}
             color={room.data.color}
             name={room.data.name}
-            rooms={rooms}
+            isPinned={room.data.isPinned}
+            roomNumber={room.data.id}
           />
         ))}
         <div className="nothing-found">

@@ -23,9 +23,15 @@
 }
 
 @media (max-width: 900px) {
+    .pin__toTop {
+        display: none;
+    }
+    .choose__chat {
+        flex: 1;
+    }
     .sidebarChat {
         .pin__toTop {
-            display: none !important;
+            visibility: hidden !important;
         }
         justify-content: center;
         &__info {

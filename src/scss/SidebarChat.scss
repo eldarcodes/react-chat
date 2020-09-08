@@ -56,6 +56,13 @@
 }
 
 .activeLink .rooms {
-    background-color: #0984e3;
+    background-color: #0984e3 !important;
     color: #fff;
+}
+
+.isPinned {
+    background-color: lightgray !important;
+    .pin__toTop {
+        visibility: visible;
+    }
 }

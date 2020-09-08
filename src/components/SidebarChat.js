@@ -4,13 +4,13 @@ import db from './../firebase/firebase'
 import {NavLink} from 'react-router-dom'
 import AddIcon from '@material-ui/icons/Add'
 import {useStateValue} from './../StateProvider'
-import {colors} from './../utils/common'
-import {ReactComponent as Logo} from '../assets/pushpin.svg'
+import {colors, menu} from './../utils/common'
+import {ReactComponent as PinToTop} from '../assets/pushpin.svg'
+import LongPress from './../utils/LongPress'
 
-const SidebarChat = ({addNewChat, id, name, color, rooms}) => {
+const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
   const [{user}, dispatch] = useStateValue()
   const [message, setMessages] = useState([])
-
   useEffect(() => {
     if (id) {
       db.collection('rooms')
@@ -34,34 +34,40 @@ const SidebarChat = ({addNewChat, id, name, color, rooms}) => {
             color: colors[Math.floor(Math.random() * colors.length)],
             creator: user.email,
             id: snap.size + 1,
+            isPinned: false,
           })
         })
     }
   }
+  const pinToTop = () => {
+    db.collection('rooms')
+      .doc(id)
+      .set(
+        {
+          isPinned: !isPinned,
+          id: +roomNumber >= 1000 ? +roomNumber - 1000 : +roomNumber + 1000,
+        },
+        {merge: true}
+      )
+  }
 
   return !addNewChat ? (
-    <NavLink
-      onClick={() => {
-        document.querySelector('.sidebar').classList.remove('open')
-        document.querySelector('.sidebar').classList.add('close')
-      }}
-      activeClassName="activeLink"
-      data-id={`${id}`}
-      to={`/rooms/${id}`}
-    >
-      <div className="sidebarChat rooms">
-        <Avatar style={{backgroundColor: color}} />
-        <div className="sidebarChat__info">
-          <h2 className="room_name">{name}</h2>
-          <p className="old__message">
-            {message[0]?.message ? message[0]?.message : ' '}
-          </p>
+    <LongPress time={600} onPress={() => menu()} onLongPress={() => pinToTop()}>
+      <NavLink to={`/rooms/${id}`} activeClassName="activeLink">
+        <div className={`sidebarChat rooms ${isPinned && 'isPinned'}`}>
+          <Avatar style={{backgroundColor: color}} />
+          <div className="sidebarChat__info">
+            <h2 className="room_name">{name}</h2>
+            <p className="old__message">
+              {message[0]?.message ? message[0]?.message : ' '}
+            </p>
+          </div>
+          <div data-id={`${id}`} className="pin__toTop" onClick={pinToTop}>
+            <PinToTop />
+          </div>
         </div>
-        <div className="pin__toTop">
-          <Logo />
-        </div>
-      </div>
-    </NavLink>
+      </NavLink>
+    </LongPress>
   ) : (
     <div className="sidebarChat plus__icon" onClick={createChat}>
       <h2 className="addChat">Добавить новый чат</h2>
