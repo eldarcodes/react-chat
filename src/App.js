@@ -46,6 +46,16 @@ const App = () => {
           </Switch>
         </div>
       )}
+      <footer>
+        Created by
+        <a
+          rel="noopener noreferrer"
+          href="https://github.com/mirzabekov00"
+          target="_blank"
+        >
+          Eldar Myrzabekov
+        </a>
+      </footer>
     </div>
   )
 }

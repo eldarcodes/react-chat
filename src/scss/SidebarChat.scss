@@ -1,10 +1,34 @@
+.pin__toTop {
+    visibility: hidden;
+    padding: 8px;
+    margin-left: auto;
+}
+
+.pinned {
+    visibility: visible !important;
+}
+
+.activeLink .pin__toTop:hover {
+    background-color: rgba($color: #fff, $alpha: 0.4) !important;
+}
+
 .sidebarChat {
+    justify-content: flex-start;
+
     display: flex;
     padding: 20px;
+    align-items: center;
     cursor: pointer;
     border-bottom: 1px solid lightgray;
     &:hover {
         background-color: rgba($color: #000000, $alpha: 0.05);
+        .pin__toTop {
+            visibility: visible;
+            &:hover {
+                background-color: #0984e3;
+                border-radius: 4px;
+            }
+        }
     }
     &__info > h2 {
         font-size: 16px;

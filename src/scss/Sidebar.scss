@@ -61,3 +61,16 @@
     overflow-y: scroll;
 }
 
+.nothing-found {
+    display: none;
+    text-align: center;
+    margin-top: 35px;
+    p {
+        display: inline-block;
+        padding: 8px 17px;
+        border-radius: 10px;
+        opacity: 0.8;
+        font-size: 18px;
+        background-color: lightgray;
+    }
+}

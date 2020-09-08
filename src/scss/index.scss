@@ -164,4 +164,16 @@ a {
     }
 }
 
+footer {
+    position: absolute;
+    color: gray;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+    top: 5px;
+    a {
+        margin-left: 3px;
+    }
+}
+
 @import "media";

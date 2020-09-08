@@ -43,7 +43,9 @@ const Sidebar = () => {
     let titles = document.querySelectorAll('.rooms')
     setSearch(e.target.value)
     titles.forEach((title) => {
+      e.target.value = e.target.value.replace(/\\/g, '\\\\')
       let re = new RegExp(e.target.value, 'gi')
+
       if (
         e.target.value.search(
           /` ! @ # $ % ^ & * ( ) _ + | - = { } [ ] : " ; ' < > ? , . /g
@@ -51,8 +53,20 @@ const Sidebar = () => {
       ) {
         if (title.querySelector('.room_name').innerHTML.search(re) !== -1) {
           title.style.display = 'flex'
+          title.classList.remove('removed')
+          document.querySelector('.nothing-found').style.display = 'none'
         } else {
           title.style.display = 'none'
+          title.classList.add('removed')
+          let sum = 0
+          titles.forEach((check) => {
+            if (check.classList.contains('removed')) {
+              sum++
+            }
+          })
+          if (sum === titles.length) {
+            document.querySelector('.nothing-found').style.display = 'block'
+          }
         }
       }
     })
@@ -103,6 +117,9 @@ const Sidebar = () => {
             rooms={rooms}
           />
         ))}
+        <div className="nothing-found">
+          <p>Ничего не найдено</p>
+        </div>
       </div>
     </div>
   )

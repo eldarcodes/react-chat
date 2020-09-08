@@ -24,6 +24,9 @@
 
 @media (max-width: 900px) {
     .sidebarChat {
+        .pin__toTop {
+            display: none !important;
+        }
         justify-content: center;
         &__info {
             display: none;
@@ -144,7 +147,7 @@
                 justify-content: center;
             }
             &Chat.rooms {
-                justify-content: start;
+                justify-content: flex-start;
             }
             &Chat__info {
                 display: block !important;

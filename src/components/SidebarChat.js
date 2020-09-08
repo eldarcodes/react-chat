@@ -5,6 +5,7 @@ import {NavLink} from 'react-router-dom'
 import AddIcon from '@material-ui/icons/Add'
 import {useStateValue} from './../StateProvider'
 import {colors} from './../utils/common'
+import {ReactComponent as Logo} from '../assets/pushpin.svg'
 
 const SidebarChat = ({addNewChat, id, name, color, rooms}) => {
   const [{user}, dispatch] = useStateValue()
@@ -45,6 +46,7 @@ const SidebarChat = ({addNewChat, id, name, color, rooms}) => {
         document.querySelector('.sidebar').classList.add('close')
       }}
       activeClassName="activeLink"
+      data-id={`${id}`}
       to={`/rooms/${id}`}
     >
       <div className="sidebarChat rooms">
@@ -54,6 +56,9 @@ const SidebarChat = ({addNewChat, id, name, color, rooms}) => {
           <p className="old__message">
             {message[0]?.message ? message[0]?.message : ' '}
           </p>
+        </div>
+        <div className="pin__toTop">
+          <Logo />
         </div>
       </div>
     </NavLink>
