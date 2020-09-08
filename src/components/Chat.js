@@ -79,11 +79,12 @@ const Chat = () => {
     if (roomName !== newRoomName && newRoomName) {
       db.collection('rooms')
         .doc(roomId)
-        .set({
-          name: newRoomName,
-          creator: user.email,
-          color,
-        })
+        .set(
+          {
+            name: newRoomName,
+          },
+          {merge: true}
+        )
         .catch(function (error) {
           console.error('Error writing document: ', error)
         })
@@ -127,9 +128,10 @@ const Chat = () => {
           <p>
             Был в сети:
             {messages.length
-              ? new Date(
-                  messages[messages.length - 1]?.timestamp?.toDate()
-                ).toUTCString()
+              ? ' ' +
+                new Date(messages[messages.length - 1]?.timestamp?.toDate())
+                  .toString()
+                  .slice(0, -45)
               : ' -'}
           </p>
         </div>
@@ -169,9 +171,7 @@ const Chat = () => {
               message.message
             )}
             <span className="chat__timestamp">
-              {new Date(message.timestamp?.toDate())
-                .toUTCString()
-                .slice(17, -7)}
+              {new Date(message.timestamp?.toDate()).toString().slice(16, -45)}
             </span>
           </p>
         ))}
