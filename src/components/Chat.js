@@ -41,9 +41,11 @@ const Chat = () => {
       db.collection('rooms')
         .doc(roomId)
         .onSnapshot((snapshot) => {
-          setRoomName(snapshot.data().name)
-          setNewRoomName(snapshot.data().name)
-          setColor(snapshot.data().color)
+          if (snapshot.data().name) {
+            setRoomName(snapshot.data().name)
+            setNewRoomName(snapshot.data().name)
+            setColor(snapshot.data().color)
+          }
         })
     }
     db.collection('rooms')

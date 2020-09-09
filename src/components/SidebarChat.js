@@ -7,10 +7,13 @@ import {useStateValue} from './../StateProvider'
 import {colors, menu} from './../utils/common'
 import {ReactComponent as PinToTop} from '../assets/pushpin.svg'
 import LongPress from './../utils/LongPress'
+import FormDialog from './../utils/FormDialog'
 
 const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
   const [{user}, dispatch] = useStateValue()
   const [message, setMessages] = useState([])
+  const [showPopup, setShowPopup] = useState(false)
+
   useEffect(() => {
     if (id) {
       db.collection('rooms')
@@ -22,25 +25,6 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
         })
     }
   }, [id])
-
-  const createChat = () => {
-    const roomName = prompt('Введите название комнаты')
-    if (roomName.length >= 10) {
-      alert('Слишком длинное название для чата!')
-    } else if (roomName) {
-      db.collection('rooms')
-        .get()
-        .then((snap) => {
-          db.collection('rooms').add({
-            name: roomName,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            creator: user.email,
-            id: snap.size + 1,
-            isPinned: [],
-          })
-        })
-    }
-  }
 
   const pinToTop = () => {
     db.collection('rooms')
@@ -92,7 +76,6 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
     }
     return pinned
   }
-
   return !addNewChat ? (
     <LongPress time={400} onPress={() => menu()} onLongPress={() => pinToTop()}>
       <NavLink to={`/rooms/${id}`} activeClassName="activeLink">
@@ -113,10 +96,16 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
       </NavLink>
     </LongPress>
   ) : (
-    <div className="sidebarChat plus__icon" onClick={createChat}>
-      <h2 className="addChat">Добавить новый чат</h2>
-      <AddIcon className="addChatIcon" />
-    </div>
+    <>
+      {showPopup && <FormDialog colors={colors} user={user} />}
+      <div
+        onClick={() => setShowPopup(!showPopup)}
+        className="sidebarChat plus__icon"
+      >
+        <h2 className="addChat">Добавить новый чат</h2>
+        <AddIcon className="addChatIcon" />
+      </div>
+    </>
   )
 }
 

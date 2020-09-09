@@ -7,13 +7,11 @@ import {StateProvider} from './StateProvider'
 import {BrowserRouter as Router} from 'react-router-dom'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StateProvider initialState={initialState} reducer={reducer}>
-      <Router>
-        <App />
-      </Router>
-    </StateProvider>
-  </React.StrictMode>,
+  <StateProvider initialState={initialState} reducer={reducer}>
+    <Router>
+      <App />
+    </Router>
+  </StateProvider>,
 
   document.getElementById('root')
 )
