@@ -18,6 +18,30 @@ const Sidebar = () => {
   const [{user}, dispatch] = useStateValue()
 
   useEffect(() => {
+    const sortPin = (testRoom) => {
+      let pinnedRooms = []
+      let unpinnedRooms = []
+      if (testRoom) {
+        testRoom.forEach((room) => {
+          if (room.data.isPinned.length === 0) {
+            unpinnedRooms.push(room)
+          }
+
+          room.data.isPinned.forEach((pin) => {
+            if (user.uid === pin) {
+              pinnedRooms.push(room)
+            } else {
+              unpinnedRooms.push(room)
+            }
+          })
+        })
+      }
+      let newRooms = pinnedRooms.concat(unpinnedRooms)
+      newRooms = Array.from(new Set(newRooms))
+
+      return newRooms
+    }
+
     const unsubscribe = db
       .collection('rooms')
       .orderBy('id', 'desc')
@@ -30,7 +54,7 @@ const Sidebar = () => {
     return () => {
       unsubscribe()
     }
-  }, [])
+  }, [user.uid])
 
   const signOut = () => {
     auth
@@ -74,30 +98,6 @@ const Sidebar = () => {
         }
       }
     })
-  }
-
-  const sortPin = (testRoom) => {
-    let pinnedRooms = []
-    let unpinnedRooms = []
-    if (testRoom) {
-      testRoom.forEach((room) => {
-        if (room.data.isPinned.length === 0) {
-          unpinnedRooms.push(room)
-        }
-
-        room.data.isPinned.forEach((pin) => {
-          if (user.uid === pin) {
-            pinnedRooms.push(room)
-          } else {
-            unpinnedRooms.push(room)
-          }
-        })
-      })
-    }
-    let newRooms = pinnedRooms.concat(unpinnedRooms)
-    newRooms = Array.from(new Set(newRooms))
-
-    return newRooms
   }
 
   return (

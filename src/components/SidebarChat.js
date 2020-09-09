@@ -25,7 +25,9 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
 
   const createChat = () => {
     const roomName = prompt('Введите название комнаты')
-    if (roomName) {
+    if (roomName.length >= 10) {
+      alert('Слишком длинное название для чата!')
+    } else if (roomName) {
       db.collection('rooms')
         .get()
         .then((snap) => {
@@ -39,6 +41,7 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
         })
     }
   }
+
   const pinToTop = () => {
     db.collection('rooms')
       .doc(id)
