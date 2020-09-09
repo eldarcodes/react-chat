@@ -97,7 +97,14 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
     </LongPress>
   ) : (
     <>
-      {showPopup && <FormDialog colors={colors} user={user} />}
+      {showPopup && (
+        <FormDialog
+          showPopup={showPopup}
+          setShowPopup={setShowPopup}
+          colors={colors}
+          user={user}
+        />
+      )}
       <div
         onClick={() => setShowPopup(!showPopup)}
         className="sidebarChat plus__icon"

@@ -37,6 +37,7 @@ const Chat = () => {
   })
 
   useEffect(() => {
+    setInput('')
     if (roomId) {
       db.collection('rooms')
         .doc(roomId)

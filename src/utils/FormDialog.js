@@ -8,12 +8,13 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import db from './../firebase/firebase'
 
-const FormDialog = ({colors, user}) => {
+const FormDialog = ({colors, user, showPopup, setShowPopup}) => {
   const [roomName, setRoomName] = useState('')
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(showPopup)
 
   const handleClose = () => {
     setOpen(false)
+    setShowPopup(false)
   }
 
   const createChat = () => {
@@ -35,6 +36,7 @@ const FormDialog = ({colors, user}) => {
       }
     }
     setOpen(false)
+    setShowPopup(false)
   }
 
   return (
