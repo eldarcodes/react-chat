@@ -1,8 +1,11 @@
-### Live demo
+# Chat
+Live messaging using react and firebase
+
+## Live demo
 
 https://react-chat-85412.web.app/
 
-## Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
