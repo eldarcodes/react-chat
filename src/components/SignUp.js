@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
-import {auth} from '../firebase/firebase'
+import db, {auth} from '../firebase/firebase'
 import {actionTypes} from '../reducer'
 import {useStateValue} from './../StateProvider'
 
 const SignUp = () => {
-  const [_, dispatch] = useStateValue()
+  const [{user}, dispatch] = useStateValue()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
@@ -15,13 +15,20 @@ const SignUp = () => {
     if (username && username.length < 20) {
       auth
         .createUserWithEmailAndPassword(email, password)
-        .then((res) =>
+        .then((result) => {
           dispatch({
             type: actionTypes.SET_USER,
-            user: res.user,
+            user: result.user,
           })
-        )
+          db.collection('users').doc(result.user.uid).set({
+            name: username,
+            photoURL: '',
+            uid: result.user.uid,
+          })
+        })
         .then(() => {
+          console.log(user)
+
           auth.currentUser
             .updateProfile({
               displayName: username,

@@ -6,9 +6,10 @@ import Login from './components/Login'
 import {useStateValue} from './StateProvider'
 import Error404 from './components/Error404'
 import SignUp from './components/SignUp'
-import {auth} from './firebase/firebase'
+import db, {auth} from './firebase/firebase'
 import {actionTypes} from './reducer'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import {menu} from './utils/common'
 
 const App = () => {
   const [{user}, dispatch] = useStateValue()
@@ -25,11 +26,6 @@ const App = () => {
       setIsFetching(false)
     })
   }, [dispatch])
-
-  const menu = () => {
-    document.querySelector('.sidebar').classList.toggle('close')
-    document.querySelector('.sidebar').classList.toggle('open')
-  }
 
   return (
     <div className="app">

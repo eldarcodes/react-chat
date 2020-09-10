@@ -3,6 +3,7 @@ import {auth, provider} from '../firebase/firebase'
 import {useStateValue} from './../StateProvider'
 import {actionTypes} from '../reducer'
 import {Link} from 'react-router-dom'
+import db from './../firebase/firebase'
 
 const Login = () => {
   const [_, dispatch] = useStateValue()
@@ -18,13 +19,27 @@ const Login = () => {
           type: actionTypes.SET_USER,
           user: result.user,
         })
+        db.collection('users').doc(result.user.uid).set({
+          name: result.user.displayName,
+          photoURL: result.user.photoURL,
+          uid: result.user.uid,
+        })
       })
       .catch((e) => alert(e.message))
   }
 
   const signInWithPassword = (e) => {
     e.preventDefault()
-    auth.signInWithEmailAndPassword(email, password).catch((err) => alert(err))
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        db.collection('users').doc(result.user.uid).set({
+          name: result.user.displayName,
+          photoURL: result.user.photoURL,
+          uid: result.user.uid,
+        })
+      })
+      .catch((err) => alert(err))
   }
 
   return (

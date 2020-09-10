@@ -50,7 +50,6 @@ const Sidebar = () => {
           sortPin(snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()})))
         )
       })
-
     return () => {
       unsubscribe()
     }
