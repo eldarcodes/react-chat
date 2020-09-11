@@ -11,11 +11,18 @@ import Divider from '@material-ui/core/Divider'
 import {Avatar} from '@material-ui/core'
 import PersonIcon from '@material-ui/icons/Person'
 import EditIcon from '@material-ui/icons/Edit'
+import db from './../firebase/firebase'
+import IconButton from '@material-ui/core/IconButton'
 
-export default function ProfilePopup({showPopup, setShowPopup, user}) {
+export default function ProfilePopup({
+  showPopup,
+  setShowPopup,
+  user,
+  userStatus,
+}) {
   const [open, setOpen] = React.useState(showPopup)
   const [bioLength, setBioLength] = React.useState(70)
-  const [status, setStatus] = React.useState('')
+  const [status, setStatus] = React.useState(userStatus)
 
   const handleClose = () => {
     setOpen(false)
@@ -28,6 +35,20 @@ export default function ProfilePopup({showPopup, setShowPopup, user}) {
     }
     setStatus(e.target.value)
     setBioLength(70 - e.target.value.length)
+  }
+
+  const saveChanges = () => {
+    if (status) {
+      db.collection('users').doc(user.uid).set(
+        {
+          status: status,
+        },
+        {merge: true}
+      )
+    }
+
+    setOpen(false)
+    setShowPopup(false)
   }
 
   return (
@@ -45,10 +66,9 @@ export default function ProfilePopup({showPopup, setShowPopup, user}) {
           }}
         >
           <DialogTitle id="form-dialog-title">Информация</DialogTitle>
-          <CloseIcon
-            style={{marginRight: '24px', cursor: 'pointer'}}
-            onClick={handleClose}
-          />
+          <IconButton style={{marginRight: '24px'}} onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
         </div>
         <Divider />
         <div
@@ -108,7 +128,7 @@ export default function ProfilePopup({showPopup, setShowPopup, user}) {
           <Button onClick={handleClose} color="primary">
             Отмена
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={saveChanges} color="primary">
             Сохранить
           </Button>
         </DialogActions>

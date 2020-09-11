@@ -17,9 +17,17 @@ const Sidebar = () => {
   const [rooms, setRooms] = useState([])
   const [searchInput, setSearch] = useState('')
   const [showPopup, setShowPopup] = useState(false)
+  const [userStatus, setUserStatus] = useState('')
+
   const [{user}, dispatch] = useStateValue()
 
   useEffect(() => {
+    db.collection('users')
+      .doc(user.uid)
+      .onSnapshot((snap) => {
+        setUserStatus(snap.data().status)
+      })
+
     const sortPin = (testRoom) => {
       let pinnedRooms = []
       let unpinnedRooms = []
@@ -111,6 +119,7 @@ const Sidebar = () => {
         />
         {showPopup && (
           <ProfilePopup
+            userStatus={userStatus}
             user={user}
             showPopup={showPopup}
             setShowPopup={setShowPopup}

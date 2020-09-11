@@ -183,15 +183,17 @@ footer {
 .profilePopup__displayName {
     display: flex;
     position: relative;
-    padding: 12px 0;
+    padding: 12px 5px;
     align-items: center;
     div {
         margin-left: 20px;
     }
     &:hover {
         background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
         .profilePopup__editIcon {
             visibility: visible;
+            cursor: pointer;
         }
     }
 }
