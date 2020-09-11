@@ -7,7 +7,7 @@ import {useStateValue} from './../StateProvider'
 import {colors, menu} from './../utils/common'
 import {ReactComponent as PinToTop} from '../assets/pushpin.svg'
 import LongPress from './../utils/LongPress'
-import FormDialog from './../utils/FormDialog'
+import CreateChatPopup from './../utils/CreateChatPopup'
 
 const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
   const [{user}, dispatch] = useStateValue()
@@ -98,7 +98,7 @@ const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
   ) : (
     <>
       {showPopup && (
-        <FormDialog
+        <CreateChatPopup
           showPopup={showPopup}
           setShowPopup={setShowPopup}
           colors={colors}

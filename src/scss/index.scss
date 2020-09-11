@@ -176,4 +176,31 @@ footer {
     }
 }
 
+.MuiDialog-paperWidthSm {
+    width: 440px !important;
+}
+
+.profilePopup__displayName {
+    display: flex;
+    position: relative;
+    padding: 12px 0;
+    align-items: center;
+    div {
+        margin-left: 20px;
+    }
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        .profilePopup__editIcon {
+            visibility: visible;
+        }
+    }
+}
+
+.profilePopup__editIcon {
+    visibility: hidden;
+    position: absolute;
+    right: 8px;
+    top: 11px;
+}
+
 @import "media";

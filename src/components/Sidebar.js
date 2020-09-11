@@ -11,10 +11,12 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import {auth} from '../firebase/firebase'
 import CloseIcon from '@material-ui/icons/Close'
 import {menu} from './../utils/common'
+import ProfilePopup from './ProfilePopup'
 
 const Sidebar = () => {
   const [rooms, setRooms] = useState([])
   const [searchInput, setSearch] = useState('')
+  const [showPopup, setShowPopup] = useState(false)
   const [{user}, dispatch] = useStateValue()
 
   useEffect(() => {
@@ -102,7 +104,18 @@ const Sidebar = () => {
   return (
     <div className="sidebar close">
       <div className="sidebar__header">
-        <Avatar src={user.photoURL} />
+        <Avatar
+          style={{cursor: 'pointer'}}
+          src={user.photoURL}
+          onClick={() => setShowPopup(!showPopup)}
+        />
+        {showPopup && (
+          <ProfilePopup
+            user={user}
+            showPopup={showPopup}
+            setShowPopup={setShowPopup}
+          />
+        )}
         <div className="sidebar__headerRight">
           <IconButton>
             <ChatIcon />

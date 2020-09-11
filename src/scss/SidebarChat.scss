@@ -61,7 +61,7 @@
 }
 
 .isPinned {
-    background-color: lightgray !important;
+    background-color: rgba(0, 0, 0, 0.1) !important;
     .pin__toTop {
         visibility: visible;
     }

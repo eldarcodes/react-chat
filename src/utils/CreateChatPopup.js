@@ -6,9 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import db from './../firebase/firebase'
+import db from '../firebase/firebase'
 
-const FormDialog = ({colors, user, showPopup, setShowPopup}) => {
+const CreateChatPopup = ({colors, user, showPopup, setShowPopup}) => {
   const [roomName, setRoomName] = useState('')
   const [open, setOpen] = React.useState(showPopup)
 
@@ -75,4 +75,4 @@ const FormDialog = ({colors, user, showPopup, setShowPopup}) => {
   )
 }
 
-export default FormDialog
+export default CreateChatPopup
