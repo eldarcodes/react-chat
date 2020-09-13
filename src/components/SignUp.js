@@ -21,14 +21,12 @@ const SignUp = () => {
             user: result.user,
           })
           db.collection('users').doc(result.user.uid).set({
-            name: username,
+            displayName: username,
             photoURL: '',
             uid: result.user.uid,
           })
         })
         .then(() => {
-          console.log(user)
-
           auth.currentUser
             .updateProfile({
               displayName: username,

@@ -112,37 +112,52 @@ const Sidebar = () => {
   return (
     <div className="sidebar close">
       <div className="sidebar__header">
-        <Avatar
-          style={{cursor: 'pointer'}}
-          src={user.photoURL}
-          onClick={() => setShowPopup(!showPopup)}
-        />
-        {showPopup && (
-          <ProfilePopup
-            userStatus={userStatus}
-            user={user}
-            showPopup={showPopup}
-            setShowPopup={setShowPopup}
-          />
-        )}
-        <div className="sidebar__headerRight">
-          <IconButton>
-            <ChatIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-          <IconButton onClick={signOut} className="exit">
-            <ExitToAppIcon />
-          </IconButton>
-          <IconButton
-            onClick={menu}
-            className="close-icon"
-            style={{display: 'none'}}
+        <div className="sidebar__header__wrapper">
+          <div
+            className="avatar__wrapper"
+            style={{cursor: 'pointer'}}
+            onClick={() => setShowPopup(!showPopup)}
           >
-            <CloseIcon />
-          </IconButton>
+            <Avatar src={user.photoURL} />
+            {user.displayName && <h5>{user.displayName}</h5>}
+          </div>
+          {showPopup && (
+            <ProfilePopup
+              userStatus={userStatus}
+              user={user}
+              showPopup={showPopup}
+              setShowPopup={setShowPopup}
+            />
+          )}
+          <div className="sidebar__headerRight">
+            <IconButton>
+              <ChatIcon />
+            </IconButton>
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+            <IconButton onClick={signOut} className="exit">
+              <ExitToAppIcon />
+            </IconButton>
+            <IconButton
+              onClick={menu}
+              className="close-icon"
+              style={{display: 'none'}}
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
         </div>
+        {userStatus ? (
+          <p style={{color: 'gray', marginLeft: '5px'}}>{userStatus}</p>
+        ) : (
+          <p
+            onClick={() => setShowPopup(!showPopup)}
+            style={{color: 'gray', marginLeft: '5px', cursor: 'pointer'}}
+          >
+            Изменить статус
+          </p>
+        )}
       </div>
       <div className="sidebar__search">
         <div className="sidebar__searchContainer">

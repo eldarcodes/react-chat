@@ -22,6 +22,7 @@ const Chat = () => {
   const [popup, setPopup] = useState(false)
   const [messages, setMessages] = useState([])
   const [roomName, setRoomName] = useState('')
+  const [room, setRoom] = useState({})
   const [newRoomName, setNewRoomName] = useState('')
   const [color, setColor] = useState('')
 
@@ -43,6 +44,7 @@ const Chat = () => {
         .doc(roomId)
         .onSnapshot((snapshot) => {
           if (snapshot.data().name) {
+            setRoom(snapshot.data())
             setRoomName(snapshot.data().name)
             setNewRoomName(snapshot.data().name)
             setColor(snapshot.data().color)
@@ -79,7 +81,14 @@ const Chat = () => {
 
   const changeRoomName = () => {
     setChangeName(!changeName)
-    if (roomName !== newRoomName && newRoomName) {
+    if (newRoomName.length > 30) {
+      alert('Слишком длинное название!')
+      return
+    } else if (
+      roomName !== newRoomName &&
+      newRoomName &&
+      user.uid === room.creator
+    ) {
       db.collection('rooms')
         .doc(roomId)
         .set(
@@ -123,7 +132,13 @@ const Chat = () => {
                 setNewRoomName(roomName)
                 setChangeName(!changeName)
               }}
-              style={{padding: '5px', marginLeft: '10px'}}
+              style={{
+                padding: '5px',
+                marginLeft: '10px',
+                visibility: `${
+                  user.uid === room.creator ? 'visible' : 'hidden'
+                }`,
+              }}
             >
               <EditIcon />
             </IconButton>
@@ -191,6 +206,9 @@ const Chat = () => {
           />
         )}
         <form action="">
+          <IconButton onClick={() => setPopup(!popup)}>
+            <InsertEmoticonIcon />
+          </IconButton>
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -207,13 +225,10 @@ const Chat = () => {
               <SendIcon />
             </IconButton>
           </button>
-          <IconButton onClick={() => setPopup(!popup)}>
-            <InsertEmoticonIcon />
+          <IconButton className="mic_icon">
+            <MicIcon />
           </IconButton>
         </form>
-        <IconButton className="mic_icon">
-          <MicIcon />
-        </IconButton>
       </div>
     </div>
   )

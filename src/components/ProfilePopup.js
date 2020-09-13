@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
@@ -13,6 +13,7 @@ import PersonIcon from '@material-ui/icons/Person'
 import EditIcon from '@material-ui/icons/Edit'
 import db from './../firebase/firebase'
 import IconButton from '@material-ui/core/IconButton'
+import ChangeProfileName from './ChangeProfileName'
 
 export default function ProfilePopup({
   showPopup,
@@ -20,17 +21,23 @@ export default function ProfilePopup({
   user,
   userStatus,
 }) {
-  const [open, setOpen] = React.useState(showPopup)
-  const [bioLength, setBioLength] = React.useState(70)
-  const [status, setStatus] = React.useState(userStatus)
+  const [popupName, setPopupName] = useState(false)
+  const [username, setUsername] = useState(user.displayName)
+  const [bioLength, setBioLength] = useState(70)
+  const [status, setStatus] = useState(userStatus)
+
+  useEffect(() => {
+    if (userStatus) {
+      setBioLength(70 - status.length)
+    }
+  }, [])
 
   const handleClose = () => {
-    setOpen(false)
     setShowPopup(false)
   }
 
   const changeStatus = (e) => {
-    if (e.target.value.length === 71) {
+    if (e.target.value.length >= 71) {
       return
     }
     setStatus(e.target.value)
@@ -38,26 +45,21 @@ export default function ProfilePopup({
   }
 
   const saveChanges = () => {
-    if (status) {
-      db.collection('users').doc(user.uid).set(
-        {
-          status: status,
-        },
-        {merge: true}
-      )
-    }
-
-    setOpen(false)
+    db.collection('users').doc(user.uid).set(
+      {
+        status: status,
+      },
+      {merge: true}
+    )
     setShowPopup(false)
   }
-
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
+    <Dialog
+      open={showPopup}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+    >
+      <div className="test" style={{maxWidth: '440px'}}>
         <div
           style={{
             display: 'flex',
@@ -97,11 +99,25 @@ export default function ProfilePopup({
 
         <DialogContent>
           <DialogContentText style={{margin: '0'}}>
-            <div className="profilePopup__displayName">
+            <div
+              className="profilePopup__displayName"
+              style={{cursor: 'pointer'}}
+              onClick={() => {
+                setPopupName(!popupName)
+              }}
+            >
               <PersonIcon />
-              <div>{user.displayName}</div>
+              <div>{username}</div>
               <EditIcon className="profilePopup__editIcon" />
             </div>
+            {popupName && (
+              <ChangeProfileName
+                setPopupName={setPopupName}
+                popupName={popupName}
+                setUsername={setUsername}
+                user={user}
+              />
+            )}
           </DialogContentText>
         </DialogContent>
         <Divider />
@@ -117,11 +133,14 @@ export default function ProfilePopup({
                 type="email"
                 fullWidth
                 onChange={changeStatus}
+                onKeyDown={(e) => e.key === 'Enter' && saveChanges()}
               />
               <span>{bioLength}</span>
             </div>
 
-            <p>Любые подробности, например: возраст, род занятий или город.</p>
+            <span>
+              Любые подробности, например: возраст, род занятий или город.
+            </span>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -132,7 +151,7 @@ export default function ProfilePopup({
             Сохранить
           </Button>
         </DialogActions>
-      </Dialog>
-    </div>
+      </div>
+    </Dialog>
   )
 }

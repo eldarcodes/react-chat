@@ -19,7 +19,7 @@ const CreateChatPopup = ({colors, user, showPopup, setShowPopup}) => {
 
   const createChat = () => {
     if (roomName) {
-      if (roomName.length >= 10) {
+      if (roomName.length >= 30) {
         alert('Слишком длинное название для чата!')
       } else {
         db.collection('rooms')
@@ -28,7 +28,7 @@ const CreateChatPopup = ({colors, user, showPopup, setShowPopup}) => {
             db.collection('rooms').add({
               name: roomName,
               color: colors[Math.floor(Math.random() * colors.length)],
-              creator: user.email,
+              creator: user.uid,
               id: snap.size + 1,
               isPinned: [],
             })
@@ -58,6 +58,7 @@ const CreateChatPopup = ({colors, user, showPopup, setShowPopup}) => {
             value={roomName}
             label="Название чата"
             type="text"
+            onKeyDown={(e) => e.key === 'Enter' && createChat()}
             onChange={(e) => setRoomName(e.target.value)}
             fullWidth
           />

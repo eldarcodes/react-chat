@@ -23,6 +23,11 @@
 }
 
 @media (max-width: 900px) {
+    .avatar__wrapper {
+        h5 {
+            display: none;
+        }
+    }
     .pin__toTop {
         display: none;
     }
@@ -60,10 +65,15 @@
             display: none;
         }
         &__header {
-            padding-bottom: 40px;
             justify-content: center !important;
             flex-direction: column;
             align-items: center;
+            &__wrapper {
+                flex-direction: column;
+            }
+            p {
+                display: none;
+            }
             .exit {
                 display: block !important;
                 padding: 20px 0;
@@ -122,6 +132,9 @@
         background-color: white;
         &__header {
             visibility: hidden;
+            &__wrapper {
+                flex-direction: row;
+            }
         }
     }
     .menu {
@@ -131,6 +144,12 @@
     .close {
         transition: all 0.2s linear;
         height: 90%;
+        .sidebar__header {
+            padding-bottom: 55px;
+        }
+        .sidebarChat {
+            padding: 24px;
+        }
     }
     .emoji-picker-react {
         right: 10px;
@@ -143,9 +162,7 @@
         .close-icon {
             display: block !important;
         }
-        .sidebar__header {
-            visibility: visible;
-        }
+
         .sidebar {
             flex: 0;
 
@@ -168,11 +185,14 @@
                 display: block;
             }
             &__header {
-                display: flex;
-                padding-bottom: 20px;
-                justify-content: space-between !important;
-                flex-direction: row;
-                align-items: center;
+                &__wrapper {
+                    display: flex;
+                    justify-content: space-between !important;
+                    flex-direction: row;
+                    align-items: center;
+                }
+
+                visibility: visible;
                 .exit {
                     display: block !important;
                     padding: 12px;
@@ -183,5 +203,11 @@
                 display: block;
             }
         }
+    }
+}
+
+@media (max-width: 375px) {
+    .mic_icon {
+        display: none !important;
     }
 }

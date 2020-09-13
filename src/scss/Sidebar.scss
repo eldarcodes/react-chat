@@ -37,11 +37,25 @@
 }
 
 .sidebar__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
+    padding: 20px 20px 20px 20px;
     border-bottom: 1px solid lightgray;
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .avatar__wrapper {
+            display: flex;
+            align-items: center;
+            h5 {
+                margin-left: 5px;
+            }
+            .sidebar__status {
+                color: gray;
+                font-size: 17px;
+            }
+        }
+    }
 }
 
 .sidebar__headerRight {

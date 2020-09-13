@@ -20,7 +20,7 @@ const Login = () => {
           user: result.user,
         })
         db.collection('users').doc(result.user.uid).set({
-          name: result.user.displayName,
+          displayName: result.user.displayName,
           photoURL: result.user.photoURL,
           uid: result.user.uid,
         })
@@ -34,7 +34,7 @@ const Login = () => {
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
         db.collection('users').doc(result.user.uid).set({
-          name: result.user.displayName,
+          displayName: result.user.displayName,
           photoURL: result.user.photoURL,
           uid: result.user.uid,
         })
