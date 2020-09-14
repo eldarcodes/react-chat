@@ -30,7 +30,6 @@ const Chat = () => {
 
   const {roomId} = useParams()
   const [{user}, dispatch] = useStateValue()
-
   const el = useRef(null)
 
   useEffect(() => {
@@ -55,9 +54,11 @@ const Chat = () => {
       .doc(roomId)
       .collection('messages')
       .orderBy('timestamp', 'asc')
-      .onSnapshot((snapshot) =>
-        setMessages(snapshot.docs.map((doc) => doc.data()))
-      )
+      .onSnapshot((snapshot) => {
+        if (window.location.href.toString().slice(28) === roomId) {
+          setMessages(snapshot.docs.map((doc) => doc.data()))
+        }
+      })
   }, [roomId])
 
   const sendMessage = (e) => {
@@ -69,6 +70,7 @@ const Chat = () => {
         message: input,
         email: user.email,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        roomId,
       })
     }
     setInput('')
