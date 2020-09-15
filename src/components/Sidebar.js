@@ -67,7 +67,7 @@ const Sidebar = () => {
 
   const signOut = () => {
     auth
-      .signOut()
+      .signOut()  
       .then((res) => {
         window.location.href = '/'
       })

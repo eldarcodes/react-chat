@@ -22,6 +22,7 @@ const Chat = () => {
   const [popup, setPopup] = useState(false)
   const [messages, setMessages] = useState([])
   const [roomName, setRoomName] = useState('')
+  const [showSend, setShowSend] = useState(false)
   const [room, setRoom] = useState({})
   const [newRoomName, setNewRoomName] = useState('')
   const [color, setColor] = useState('')
@@ -35,7 +36,6 @@ const Chat = () => {
   useEffect(() => {
     el.current.scrollIntoView({block: 'end', behavior: 'auto'})
   })
-
   useEffect(() => {
     setInput('')
     if (roomId) {
@@ -55,7 +55,11 @@ const Chat = () => {
       .collection('messages')
       .orderBy('timestamp', 'asc')
       .onSnapshot((snapshot) => {
-        if (window.location.href.toString().slice(28) === roomId) {
+        if (
+          window.location.href
+            .toString()
+            .substr(window.location.href.length - 20) === roomId
+        ) {
           setMessages(snapshot.docs.map((doc) => doc.data()))
         }
       })
@@ -208,28 +212,37 @@ const Chat = () => {
           />
         )}
         <form action="">
-          <IconButton onClick={() => setPopup(!popup)}>
-            <InsertEmoticonIcon />
-          </IconButton>
           <input
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setShowSend(true)
+              setInput(e.target.value)
+              if (!e.target.value) {
+                setShowSend(false)
+              }
+            }}
             placeholder="Напишите сообщение"
             type="text"
           />
-          <button
-            className="send_mes"
-            style={{padding: 0}}
-            type="submit"
-            onClick={sendMessage}
-          >
-            <IconButton>
-              <SendIcon />
-            </IconButton>
-          </button>
-          <IconButton className="mic_icon">
-            <MicIcon />
+          <IconButton onClick={() => setPopup(!popup)}>
+            <InsertEmoticonIcon />
           </IconButton>
+          {showSend ? (
+            <button
+              className="send_mes"
+              style={{padding: 0}}
+              type="submit"
+              onClick={sendMessage}
+            >
+              <IconButton>
+                <SendIcon />
+              </IconButton>
+            </button>
+          ) : (
+            <IconButton className="mic_icon">
+              <MicIcon />
+            </IconButton>
+          )}
         </form>
       </div>
     </div>
