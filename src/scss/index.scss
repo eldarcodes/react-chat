@@ -204,4 +204,18 @@ footer {
     top: 11px;
 }
 
+.MuiSwitch-colorPrimary.Mui-checked {
+    color: white !important;
+}
+.MuiSwitch-track {
+    margin-top: 2px;
+    height: 40px;
+}
+.MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
+    background-color: #0088cc !important;
+}
+.Mui-checked .MuiSwitch-thumb{
+    border: 1px solid #0088cc !important;
+}
+
 @import "media";

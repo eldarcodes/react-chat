@@ -24,6 +24,8 @@ const SignUp = () => {
             displayName: username,
             photoURL: '',
             uid: result.user.uid,
+            email: result.user.email,
+            status: '',
           })
         })
         .then(() => {

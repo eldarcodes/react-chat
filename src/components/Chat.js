@@ -15,6 +15,7 @@ import Picker from 'emoji-picker-react'
 import MenuIcon from '@material-ui/icons/Menu'
 import EditIcon from '@material-ui/icons/Edit'
 import {menu, isLink} from './../utils/common'
+import UserProfilePopup from './UserProfilePopup'
 
 const Chat = () => {
   const [input, setInput] = useState('')
@@ -26,6 +27,8 @@ const Chat = () => {
   const [room, setRoom] = useState({})
   const [newRoomName, setNewRoomName] = useState('')
   const [color, setColor] = useState('')
+  const [showUserProfile, setShowUserProfile] = useState(false)
+  const [messageUserId, setMessageUserId] = useState('')
 
   const [chosenEmoji, setChosenEmoji] = useState(null)
 
@@ -72,9 +75,8 @@ const Chat = () => {
       db.collection('rooms').doc(roomId).collection('messages').add({
         name: user.displayName,
         message: input,
-        email: user.email,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        roomId,
+        userId: user.uid,
       })
     }
     setInput('')
@@ -176,12 +178,22 @@ const Chat = () => {
           <p
             key={i}
             className={`chat__message ${
-              message.email === user.email ? 'chat__reciever' : ''
+              message.userId === user.uid ? 'chat__reciever' : ''
             }`}
           >
-            {user.email !== message.email && (
-              <span className="chat__name">{message.name}</span>
+            {user.uid !== message.userId && (
+              <span
+                style={{cursor: 'pointer'}}
+                onClick={() => {
+                  setMessageUserId(message.userId)
+                  setShowUserProfile(!showUserProfile)
+                }}
+                className="chat__name"
+              >
+                {message.name}
+              </span>
             )}
+
             {isLink(message.message) ? (
               <a
                 rel="noopener noreferrer"
@@ -199,6 +211,13 @@ const Chat = () => {
             </span>
           </p>
         ))}
+        {showUserProfile && (
+          <UserProfilePopup
+            userId={messageUserId}
+            open={showUserProfile}
+            setOpen={setShowUserProfile}
+          />
+        )}
         <div id="el" ref={el}></div>
       </div>
       <div className="chat__footer">

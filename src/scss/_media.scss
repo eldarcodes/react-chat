@@ -107,6 +107,9 @@
     }
 }
 @media (max-width: 480px) {
+    .MoreVertProfile {
+        display: none !important;
+    }
     .chat__header {
         padding: 20px 20px 20px 20px;
     }

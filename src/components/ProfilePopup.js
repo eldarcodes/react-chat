@@ -14,6 +14,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import db from './../firebase/firebase'
 import IconButton from '@material-ui/core/IconButton'
 import ChangeProfileName from './ChangeProfileName'
+import MailIcon from '@material-ui/icons/Mail'
 
 export default function ProfilePopup({
   showPopup,
@@ -45,12 +46,14 @@ export default function ProfilePopup({
   }
 
   const saveChanges = () => {
-    db.collection('users').doc(user.uid).set(
-      {
-        status: status,
-      },
-      {merge: true}
-    )
+    if (status) {
+      db.collection('users').doc(user.uid).set(
+        {
+          status: status,
+        },
+        {merge: true}
+      )
+    }
     setShowPopup(false)
   }
   return (
@@ -59,7 +62,7 @@ export default function ProfilePopup({
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <div className="test" style={{maxWidth: '440px'}}>
+      <div style={{maxWidth: '440px'}}>
         <div
           style={{
             display: 'flex',
@@ -118,6 +121,15 @@ export default function ProfilePopup({
                 user={user}
               />
             )}
+          </DialogContentText>
+          <DialogContentText style={{margin: '0'}}>
+            <div
+              className="profilePopup__displayName"
+              style={{cursor: 'pointer'}}
+            >
+              <MailIcon />
+              <div>{user.email}</div>
+            </div>
           </DialogContentText>
         </DialogContent>
         <Divider />

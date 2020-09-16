@@ -19,11 +19,15 @@ const Login = () => {
           type: actionTypes.SET_USER,
           user: result.user,
         })
-        db.collection('users').doc(result.user.uid).set({
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL,
-          uid: result.user.uid,
-        })
+        db.collection('users').doc(result.user.uid).set(
+          {
+            displayName: result.user.displayName,
+            photoURL: result.user.photoURL,
+            uid: result.user.uid,
+            email: result.user.email,
+          },
+          {merge: true}
+        )
       })
       .catch((e) => alert(e.message))
   }
@@ -37,6 +41,7 @@ const Login = () => {
           displayName: result.user.displayName,
           photoURL: result.user.photoURL,
           uid: result.user.uid,
+          email: result.user.email,
         })
       })
       .catch((err) => alert(err))
