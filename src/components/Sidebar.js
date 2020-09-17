@@ -1,114 +1,26 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
+import {menu} from './../utils/common'
+import ProfilePopup from './ProfilePopup'
+import SidebarChatContainer from '../containers/SidebarChatContainer'
+
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import CloseIcon from '@material-ui/icons/Close'
 import {Avatar} from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import ChatIcon from '@material-ui/icons/Chat'
 import IconButton from '@material-ui/core/IconButton'
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined'
-import SidebarChat from './SidebarChat'
-import db from './../firebase/firebase'
-import {useStateValue} from './../StateProvider'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import {auth} from '../firebase/firebase'
-import CloseIcon from '@material-ui/icons/Close'
-import {menu} from './../utils/common'
-import ProfilePopup from './ProfilePopup'
 
-const Sidebar = () => {
-  const [rooms, setRooms] = useState([])
-  const [searchInput, setSearch] = useState('')
-  const [showPopup, setShowPopup] = useState(false)
-  const [userStatus, setUserStatus] = useState('')
-
-  const [{user}, dispatch] = useStateValue()
-
-  useEffect(() => {
-    db.collection('users')
-      .doc(user.uid)
-      .onSnapshot((snap) => {
-        setUserStatus(snap.data().status)
-      })
-
-    const sortPin = (testRoom) => {
-      let pinnedRooms = []
-      let unpinnedRooms = []
-      if (testRoom) {
-        testRoom.forEach((room) => {
-          if (room.data.isPinned.length === 0) {
-            unpinnedRooms.push(room)
-          }
-
-          room.data.isPinned.forEach((pin) => {
-            if (user.uid === pin) {
-              pinnedRooms.push(room)
-            } else {
-              unpinnedRooms.push(room)
-            }
-          })
-        })
-      }
-      let newRooms = pinnedRooms.concat(unpinnedRooms)
-      newRooms = Array.from(new Set(newRooms))
-
-      return newRooms
-    }
-
-    const unsubscribe = db
-      .collection('rooms')
-      .orderBy('id', 'desc')
-      .onSnapshot((snapshot) => {
-        setRooms(
-          sortPin(snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()})))
-        )
-      })
-    return () => {
-      unsubscribe()
-    }
-  }, [user.uid])
-
-  const signOut = () => {
-    auth
-      .signOut()  
-      .then((res) => {
-        window.location.href = '/'
-      })
-      .catch((err) => {
-        alert(err)
-      })
-  }
-
-  const search = (e) => {
-    let titles = document.querySelectorAll('.rooms')
-    setSearch(e.target.value)
-    titles.forEach((title) => {
-      e.target.value = e.target.value.replace(/\\/g, '\\\\')
-      let re = new RegExp(e.target.value, 'gi')
-
-      if (
-        e.target.value.search(
-          /` ! @ # $ % ^ & * ( ) _ + | - = { } [ ] : " ; ' < > ? , . /g
-        ) === -1
-      ) {
-        if (title.querySelector('.room_name').innerHTML.search(re) !== -1) {
-          title.style.display = 'flex'
-          title.classList.remove('removed')
-          document.querySelector('.nothing-found').style.display = 'none'
-        } else {
-          title.style.display = 'none'
-          title.classList.add('removed')
-          let sum = 0
-          titles.forEach((check) => {
-            if (check.classList.contains('removed')) {
-              sum++
-            }
-          })
-          if (sum === titles.length) {
-            document.querySelector('.nothing-found').style.display = 'block'
-          }
-        }
-      }
-    })
-  }
-
+const Sidebar = ({
+  user,
+  userStatus,
+  search,
+  rooms,
+  showPopup,
+  setShowPopup,
+  searchInput,
+  signOut,
+}) => {
   return (
     <div className="sidebar close">
       <div className="sidebar__header">
@@ -171,9 +83,9 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="sidebar__chats">
-        <SidebarChat addNewChat />
+        <SidebarChatContainer addNewChat />
         {rooms.map((room, i) => (
-          <SidebarChat
+          <SidebarChatContainer
             key={room.id}
             id={room.id}
             color={room.data.color}

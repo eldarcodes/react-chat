@@ -1,49 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
-import db, {auth} from '../firebase/firebase'
-import {actionTypes} from '../reducer'
-import {useStateValue} from './../StateProvider'
 
-const SignUp = () => {
-  const [{user}, dispatch] = useStateValue()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
-
-  const signUp = (e) => {
-    e.preventDefault()
-    if (username && username.length < 20) {
-      auth
-        .createUserWithEmailAndPassword(email, password)
-        .then((result) => {
-          dispatch({
-            type: actionTypes.SET_USER,
-            user: result.user,
-          })
-          db.collection('users').doc(result.user.uid).set({
-            displayName: username,
-            photoURL: '',
-            uid: result.user.uid,
-            email: result.user.email,
-            status: '',
-          })
-        })
-        .then(() => {
-          auth.currentUser
-            .updateProfile({
-              displayName: username,
-              photoURL: '',
-            })
-
-            .catch((error) => {
-              alert(error)
-            })
-        })
-        .catch((err) => alert(err))
-    } else {
-      alert('Username слишком длинный')
-    }
-  }
+const SignUp = ({signUp, setUsername, setEmail, setPassword}) => {
   return (
     <div className="auth__wrapper">
       <main>

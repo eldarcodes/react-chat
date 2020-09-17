@@ -1,4 +1,9 @@
 import React, {useEffect, useState} from 'react'
+import db from './../firebase/firebase'
+import ChangeProfileName from './ChangeProfileName'
+
+import IconButton from '@material-ui/core/IconButton'
+import MailIcon from '@material-ui/icons/Mail'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
@@ -11,10 +16,6 @@ import Divider from '@material-ui/core/Divider'
 import {Avatar} from '@material-ui/core'
 import PersonIcon from '@material-ui/icons/Person'
 import EditIcon from '@material-ui/icons/Edit'
-import db from './../firebase/firebase'
-import IconButton from '@material-ui/core/IconButton'
-import ChangeProfileName from './ChangeProfileName'
-import MailIcon from '@material-ui/icons/Mail'
 
 export default function ProfilePopup({
   showPopup,
@@ -31,7 +32,7 @@ export default function ProfilePopup({
     if (userStatus) {
       setBioLength(70 - status.length)
     }
-  }, [])
+  }, [userStatus])
 
   const handleClose = () => {
     setShowPopup(false)

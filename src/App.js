@@ -1,32 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import Sidebar from './components/Sidebar'
-import Chat from './components/Chat'
-import {Route, Switch, Redirect} from 'react-router-dom'
-import Login from './components/Login'
-import {useStateValue} from './StateProvider'
+import React from 'react'
 import Error404 from './components/Error404'
-import SignUp from './components/SignUp'
-import {auth} from './firebase/firebase'
-import {actionTypes} from './reducer'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import ChatContainer from './containers/ChatContainer'
+import SignUpContainer from './containers/SignUpContainer'
+import SidebarContainer from './containers/SidebarContainer'
+import LoginContainer from './containers/LoginContainer'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import {menu} from './utils/common'
 
-const App = () => {
-  const [{user}, dispatch] = useStateValue()
-  const [isFetching, setIsFetching] = useState(true)
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        dispatch({
-          type: actionTypes.SET_USER,
-          user,
-        })
-      }
-      setIsFetching(false)
-    })
-  }, [dispatch])
-
+const App = ({user, isFetching}) => {
   return (
     <div className="app">
       {isFetching ? (
@@ -36,28 +19,28 @@ const App = () => {
           {!user ? (
             <Switch>
               <Route path="/" exact>
-                <Login />
+                <LoginContainer />
               </Route>
               <Route path="/rooms/:roomId">
                 <Redirect to="/" />
               </Route>
               <Route path="/join">
-                <SignUp />
+                <SignUpContainer />
               </Route>
               <Route component={Error404} />
             </Switch>
           ) : (
             <div className="app__body">
-              <Sidebar />
+              <SidebarContainer />
               <Switch>
-                <Route path="/join">
-                  <Redirect to="/" />
-                </Route>
-                <Route path="/rooms/:roomId" component={Chat} />
-                <Route path="/">
+                <Route path="/rooms/:roomId" component={ChatContainer} />
+                <Route path="/" exact>
                   <div className="choose__chat">
                     <h2 onClick={menu}>Выберите чат</h2>
                   </div>
+                </Route>
+                <Route path="*">
+                  <Redirect to="/" />
                 </Route>
               </Switch>
             </div>
