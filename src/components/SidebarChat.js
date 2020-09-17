@@ -1,81 +1,25 @@
-import React, {useState, useEffect} from 'react'
-import {Avatar} from '@material-ui/core'
-import db from './../firebase/firebase'
+import React from 'react'
 import {NavLink} from 'react-router-dom'
-import AddIcon from '@material-ui/icons/Add'
-import {useStateValue} from './../StateProvider'
 import {colors, menu} from './../utils/common'
 import {ReactComponent as PinToTop} from '../assets/pushpin.svg'
 import LongPress from './../utils/LongPress'
 import CreateChatPopup from './../utils/CreateChatPopup'
 
-const SidebarChat = ({addNewChat, id, name, color, isPinned, roomNumber}) => {
-  const [{user}, dispatch] = useStateValue()
-  const [message, setMessages] = useState([])
-  const [showPopup, setShowPopup] = useState(false)
+import {Avatar} from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
 
-  useEffect(() => {
-    if (id) {
-      db.collection('rooms')
-        .doc(id)
-        .collection('messages')
-        .orderBy('timestamp', 'desc')
-        .onSnapshot((snapshot) => {
-          setMessages(snapshot.docs.map((doc) => doc.data()))
-        })
-    }
-  }, [id])
-
-  const pinToTop = () => {
-    db.collection('rooms')
-      .doc(id)
-      .get()
-      .then((snap) => {
-        let result = []
-        snap.data().isPinned.forEach((item) => {
-          if (!result.includes(item)) {
-            result.push(item)
-          }
-        })
-        let isFind = false
-        result.forEach((res) => {
-          if (res === user.uid) {
-            isFind = true
-            let index = result.indexOf(user.uid)
-            result.splice(index, 1)
-            db.collection('rooms').doc(id).set(
-              {
-                isPinned: result,
-              },
-              {merge: true}
-            )
-            return
-          }
-        })
-        if (!isFind) {
-          db.collection('rooms')
-            .doc(id)
-            .set(
-              {
-                isPinned: [...snap.data().isPinned, user.uid],
-              },
-              {merge: true}
-            )
-        }
-      })
-  }
-
-  const isUserPinnedChat = () => {
-    let pinned = false
-    if (isPinned) {
-      isPinned.forEach((item) => {
-        if (user.uid === item) {
-          pinned = true
-        }
-      })
-    }
-    return pinned
-  }
+const SidebarChat = ({
+  pinToTop,
+  isUserPinnedChat,
+  message,
+  showPopup,
+  setShowPopup,
+  addNewChat,
+  name,
+  color,
+  id,
+  user,
+}) => {
   return !addNewChat ? (
     <LongPress time={400} onPress={() => menu()} onLongPress={() => pinToTop()}>
       <NavLink to={`/rooms/${id}`} activeClassName="activeLink">

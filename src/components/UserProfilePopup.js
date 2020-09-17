@@ -1,5 +1,13 @@
 import React, {useState, useEffect} from 'react'
+import db from '../firebase/firebase'
+
 import Dialog from '@material-ui/core/Dialog'
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Divider from '@material-ui/core/Divider'
+import {Avatar, Switch} from '@material-ui/core'
+import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined'
+import {Button} from '@material-ui/core'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -7,13 +15,6 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import PhoneIcon from '@material-ui/icons/Phone'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import db from '../firebase/firebase'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Divider from '@material-ui/core/Divider'
-import {Avatar, Switch} from '@material-ui/core'
-import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined'
-import {Button} from '@material-ui/core'
 
 export default function UserProfilePopup({open, setOpen, userId}) {
   const [user, setUser] = useState({})

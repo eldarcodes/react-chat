@@ -1,17 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './scss/index.scss'
-import App from './App'
-import reducer, {initialState} from './reducer'
-import {StateProvider} from './StateProvider'
 import {BrowserRouter as Router} from 'react-router-dom'
+import {Provider} from 'react-redux'
+import store from './store'
+import AppContainer from './containers/AppContainer'
+
+import './scss/index.scss'
 
 ReactDOM.render(
-  <StateProvider initialState={initialState} reducer={reducer}>
-    <Router>
-      <App />
-    </Router>
-  </StateProvider>,
-
+  <Router>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  </Router>,
   document.getElementById('root')
 )
+
+window.store = store

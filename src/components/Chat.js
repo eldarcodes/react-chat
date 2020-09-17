@@ -1,4 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React from 'react'
+import Picker from 'emoji-picker-react'
+import {menu, isLink} from './../utils/common'
+import UserProfilePopup from './UserProfilePopup'
+
+import MenuIcon from '@material-ui/icons/Menu'
+import EditIcon from '@material-ui/icons/Edit'
 import {Avatar} from '@material-ui/core'
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -6,111 +12,33 @@ import AttachFile from '@material-ui/icons/AttachFile'
 import IconButton from '@material-ui/core/IconButton'
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon'
 import MicIcon from '@material-ui/icons/Mic'
-import {useParams} from 'react-router-dom'
-import db from './../firebase/firebase'
-import {useStateValue} from './../StateProvider'
-import firebase from 'firebase'
 import SendIcon from '@material-ui/icons/Send'
-import Picker from 'emoji-picker-react'
-import MenuIcon from '@material-ui/icons/Menu'
-import EditIcon from '@material-ui/icons/Edit'
-import {menu, isLink} from './../utils/common'
-import UserProfilePopup from './UserProfilePopup'
 
-const Chat = () => {
-  const [input, setInput] = useState('')
-  const [changeName, setChangeName] = useState(false)
-  const [popup, setPopup] = useState(false)
-  const [messages, setMessages] = useState([])
-  const [roomName, setRoomName] = useState('')
-  const [showSend, setShowSend] = useState(false)
-  const [room, setRoom] = useState({})
-  const [newRoomName, setNewRoomName] = useState('')
-  const [color, setColor] = useState('')
-  const [showUserProfile, setShowUserProfile] = useState(false)
-  const [messageUserId, setMessageUserId] = useState('')
-
-  const [chosenEmoji, setChosenEmoji] = useState(null)
-
-  const {roomId} = useParams()
-  const [{user}, dispatch] = useStateValue()
-  const el = useRef(null)
-
-  useEffect(() => {
-    el.current.scrollIntoView({block: 'end', behavior: 'auto'})
-  })
-  useEffect(() => {
-    setInput('')
-    if (roomId) {
-      db.collection('rooms')
-        .doc(roomId)
-        .onSnapshot((snapshot) => {
-          if (snapshot.data().name) {
-            setRoom(snapshot.data())
-            setRoomName(snapshot.data().name)
-            setNewRoomName(snapshot.data().name)
-            setColor(snapshot.data().color)
-          }
-        })
-    }
-    db.collection('rooms')
-      .doc(roomId)
-      .collection('messages')
-      .orderBy('timestamp', 'asc')
-      .onSnapshot((snapshot) => {
-        if (
-          window.location.href
-            .toString()
-            .substr(window.location.href.length - 20) === roomId
-        ) {
-          setMessages(snapshot.docs.map((doc) => doc.data()))
-        }
-      })
-  }, [roomId])
-
-  const sendMessage = (e) => {
-    e.preventDefault()
-    setPopup(false)
-    if (input) {
-      db.collection('rooms').doc(roomId).collection('messages').add({
-        name: user.displayName,
-        message: input,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        userId: user.uid,
-      })
-    }
-    setInput('')
-  }
-
-  const onEmojiClick = (event, emojiObject) => {
-    setChosenEmoji(emojiObject)
-    setInput(input + emojiObject.emoji)
-  }
-
-  const changeRoomName = () => {
-    setChangeName(!changeName)
-    if (newRoomName.length > 30) {
-      alert('Слишком длинное название!')
-      return
-    } else if (
-      roomName !== newRoomName &&
-      newRoomName &&
-      user.uid === room.creator
-    ) {
-      db.collection('rooms')
-        .doc(roomId)
-        .set(
-          {
-            name: newRoomName,
-          },
-          {merge: true}
-        )
-        .catch(function (error) {
-          console.error('Error writing document: ', error)
-        })
-    }
-  }
-
+const Chat = ({
+  user,
+  el,
+  popup,
+  onEmojiClick,
+  input,
+  setShowSend,
+  setInput,
+  showSend,
+  setPopup,
+  showUserProfile,
+  messageUserId,
+  sendMessage,
+  changeRoomName,
+  color,
+  changeName,
+  setNewRoomName,
+  newRoomName,
+  messages,
+  roomName,
+  setChangeName,
+  room,
+  setMessageUserId,
+  setShowUserProfile,
+}) => {
   return (
     <div className="chat">
       <div className="chat__header">
@@ -267,5 +195,4 @@ const Chat = () => {
     </div>
   )
 }
-
 export default Chat

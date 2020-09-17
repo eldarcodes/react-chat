@@ -7,17 +7,10 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import db from '../firebase/firebase'
 import {auth} from '../firebase/firebase'
-import {useStateValue} from './../StateProvider'
-import {actionTypes} from '../reducer'
+import {connect} from 'react-redux'
+import {setUserData} from './../reducers/authReducer'
 
-export default function ChangeProfileName({
-  popupName,
-  setPopupName,
-  user,
-  setUsername,
-}) {
-  const [_, dispatch] = useStateValue()
-
+function ChangeProfileName({popupName, setPopupName, user, setUsername}) {
   const [input, setInput] = React.useState(user.displayName)
 
   const handleClose = () => {
@@ -32,10 +25,7 @@ export default function ChangeProfileName({
       auth.currentUser.updateProfile({
         displayName: input,
       })
-      dispatch({
-        type: actionTypes.SET_USER,
-        user: auth.currentUser,
-      })
+      setUserData(auth.currentUser)
       db.collection('users').doc(user.uid).set(
         {
           displayName: input,
@@ -78,3 +68,9 @@ export default function ChangeProfileName({
     </Dialog>
   )
 }
+
+const mapStateToProps = (state) => ({})
+
+export default connect(mapStateToProps, {
+  setUserData,
+})(ChangeProfileName)
