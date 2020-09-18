@@ -8,6 +8,7 @@ const SidebarContainer = (props) => {
   const [rooms, setRooms] = useState([])
   const [searchInput, setSearch] = useState('')
   const [showPopup, setShowPopup] = useState(false)
+  const [alert, setAlert] = useState(false)
   const [userStatus, setUserStatus] = useState('')
 
   useEffect(() => {
@@ -65,6 +66,10 @@ const SidebarContainer = (props) => {
       })
   }
 
+  const showAlert = () => {
+    setAlert(!alert)
+  }
+
   const search = (e) => {
     let titles = document.querySelectorAll('.rooms')
     setSearch(e.target.value)
@@ -108,6 +113,9 @@ const SidebarContainer = (props) => {
       setShowPopup={setShowPopup}
       signOut={signOut}
       searchInput={searchInput}
+      alert={alert}
+      setAlert={setAlert}
+      showAlert={showAlert}
     />
   )
 }

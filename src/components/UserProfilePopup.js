@@ -16,7 +16,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import PhoneIcon from '@material-ui/icons/Phone'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 
-export default function UserProfilePopup({open, setOpen, userId}) {
+export default function UserProfilePopup({open, setOpen, userId, showAlert}) {
   const [user, setUser] = useState({})
   const [isFetching, setIsFetching] = useState(true)
   const [checked, setChecked] = useState(true)
@@ -34,6 +34,7 @@ export default function UserProfilePopup({open, setOpen, userId}) {
   const handleClose = () => {
     setOpen(false)
   }
+
   return (
     <Dialog
       open={open}
@@ -146,7 +147,7 @@ export default function UserProfilePopup({open, setOpen, userId}) {
       </DialogContent>
       <Divider />
       <DialogActions style={{justifyContent: 'center', padding: '15px 24px'}}>
-        <Button fullWidth={true} color="secondary">
+        <Button onClick={showAlert} fullWidth={true} color="secondary">
           Заблокировать
         </Button>
       </DialogActions>

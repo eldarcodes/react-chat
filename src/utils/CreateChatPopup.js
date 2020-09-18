@@ -8,9 +8,9 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import db from '../firebase/firebase'
 
-const CreateChatPopup = ({colors, user, showPopup, setShowPopup}) => {
+const CreateChatPopup = ({colors, user, showPopup, setShowPopup, setAlert}) => {
   const [roomName, setRoomName] = useState('')
-  const [open, setOpen] = React.useState(showPopup)
+  const [open, setOpen] = useState(showPopup)
 
   const handleClose = () => {
     setOpen(false)
@@ -25,6 +25,7 @@ const CreateChatPopup = ({colors, user, showPopup, setShowPopup}) => {
         db.collection('rooms')
           .get()
           .then((snap) => {
+            setAlert(true)
             db.collection('rooms').add({
               name: roomName,
               color: colors[Math.floor(Math.random() * colors.length)],

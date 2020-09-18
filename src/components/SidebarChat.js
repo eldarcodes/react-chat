@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {NavLink} from 'react-router-dom'
 import {colors, menu} from './../utils/common'
 import {ReactComponent as PinToTop} from '../assets/pushpin.svg'
@@ -7,6 +7,8 @@ import CreateChatPopup from './../utils/CreateChatPopup'
 
 import {Avatar} from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
+import {Snackbar} from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert'
 
 const SidebarChat = ({
   pinToTop,
@@ -19,6 +21,9 @@ const SidebarChat = ({
   color,
   id,
   user,
+  setAlert,
+  showAlert,
+  alert
 }) => {
   return !addNewChat ? (
     <LongPress time={400} onPress={() => menu()} onLongPress={() => pinToTop()}>
@@ -47,8 +52,14 @@ const SidebarChat = ({
           setShowPopup={setShowPopup}
           colors={colors}
           user={user}
+          setAlert={setAlert}
         />
       )}
+      <Snackbar open={alert} autoHideDuration={5000} onClose={showAlert}>
+        <Alert onClose={showAlert} severity="success">
+          Комната успешно создана!
+        </Alert>
+      </Snackbar>
       <div
         onClick={() => setShowPopup(!showPopup)}
         className="sidebarChat plus__icon"

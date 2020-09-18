@@ -18,6 +18,7 @@ const ChatContainer = (props) => {
   const [color, setColor] = useState('')
   const [showUserProfile, setShowUserProfile] = useState(false)
   const [messageUserId, setMessageUserId] = useState('')
+  const [alert, setAlert] = useState(false)
 
   const [_, setChosenEmoji] = useState(null)
 
@@ -98,6 +99,10 @@ const ChatContainer = (props) => {
         })
     }
   }
+
+  const showAlert = () => {
+    setAlert(!alert)
+  }
   return (
     <Chat
       {...props}
@@ -123,6 +128,8 @@ const ChatContainer = (props) => {
       room={room}
       setMessageUserId={setMessageUserId}
       setShowUserProfile={setShowUserProfile}
+      showAlert={showAlert}
+      alert={alert}
     />
   )
 }

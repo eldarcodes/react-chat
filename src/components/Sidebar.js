@@ -10,6 +10,8 @@ import {Avatar} from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import ChatIcon from '@material-ui/icons/Chat'
 import IconButton from '@material-ui/core/IconButton'
+import Alert from '@material-ui/lab/Alert'
+import Snackbar from '@material-ui/core/Snackbar'
 
 const Sidebar = ({
   user,
@@ -20,6 +22,10 @@ const Sidebar = ({
   setShowPopup,
   searchInput,
   signOut,
+  handleClose,
+  showAlert,
+  alert,
+  setAlert,
 }) => {
   return (
     <div className="sidebar close">
@@ -39,8 +45,14 @@ const Sidebar = ({
               user={user}
               showPopup={showPopup}
               setShowPopup={setShowPopup}
+              setAlert={setAlert}
             />
           )}
+          <Snackbar open={alert} autoHideDuration={5000} onClose={showAlert}>
+            <Alert onClose={showAlert} severity="success">
+              Статус успешно изменен!
+            </Alert>
+          </Snackbar>
           <div className="sidebar__headerRight">
             <IconButton>
               <ChatIcon />

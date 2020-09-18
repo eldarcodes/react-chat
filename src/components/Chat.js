@@ -13,6 +13,8 @@ import IconButton from '@material-ui/core/IconButton'
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon'
 import MicIcon from '@material-ui/icons/Mic'
 import SendIcon from '@material-ui/icons/Send'
+import Snackbar from '@material-ui/core/Snackbar'
+import Alert from '@material-ui/lab/Alert'
 
 const Chat = ({
   user,
@@ -38,6 +40,8 @@ const Chat = ({
   room,
   setMessageUserId,
   setShowUserProfile,
+  alert,
+  showAlert,
 }) => {
   return (
     <div className="chat">
@@ -144,6 +148,7 @@ const Chat = ({
             userId={messageUserId}
             open={showUserProfile}
             setOpen={setShowUserProfile}
+            showAlert={showAlert}
           />
         )}
         <div id="el" ref={el}></div>
@@ -191,6 +196,11 @@ const Chat = ({
             </IconButton>
           )}
         </form>
+        <Snackbar open={alert} autoHideDuration={5000} onClose={showAlert}>
+          <Alert onClose={showAlert} severity="success">
+            Пользователь успешно заблокирован!
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   )

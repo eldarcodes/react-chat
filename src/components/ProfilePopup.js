@@ -22,6 +22,7 @@ export default function ProfilePopup({
   setShowPopup,
   user,
   userStatus,
+  setAlert,
 }) {
   const [popupName, setPopupName] = useState(false)
   const [username, setUsername] = useState(user.displayName)
@@ -47,7 +48,8 @@ export default function ProfilePopup({
   }
 
   const saveChanges = () => {
-    if (status) {
+    if (status && status !== userStatus) {
+      setAlert(true)
       db.collection('users').doc(user.uid).set(
         {
           status: status,

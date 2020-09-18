@@ -7,6 +7,7 @@ import SidebarChat from './../components/SidebarChat'
 const SidebarChatContainer = (props) => {
   const [message, setMessages] = useState([])
   const [showPopup, setShowPopup] = useState(false)
+  const [alert, setAlert] = useState(false)
 
   useEffect(() => {
     if (props.id) {
@@ -59,6 +60,10 @@ const SidebarChatContainer = (props) => {
       })
   }
 
+  const showAlert = () => {
+    setAlert(!alert)
+  }
+
   const isUserPinnedChat = () => {
     let pinned = false
     if (props.isPinned) {
@@ -82,6 +87,9 @@ const SidebarChatContainer = (props) => {
       name={props.name}
       color={props.color}
       id={props.id}
+      setAlert={setAlert}
+      showAlert={showAlert}
+      alert={alert}
     />
   )
 }
