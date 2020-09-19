@@ -9,33 +9,26 @@ const SignUpContainer = (props) => {
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
 
-  const signUp = (e) => {
+  const signUp = async (e) => {
     e.preventDefault()
     if (username && username.length < 20) {
-      auth
-        .createUserWithEmailAndPassword(email, password)
-        .then((result) => {
-          setUserData(result.user)
-          db.collection('users').doc(result.user.uid).set({
-            displayName: username,
-            photoURL: '',
-            uid: result.user.uid,
-            email: result.user.email,
-            status: '',
-          })
+      let result = await auth.createUserWithEmailAndPassword(email, password)
+      try {
+        setUserData(result.user)
+        db.collection('users').doc(result.user.uid).set({
+          displayName: username,
+          photoURL: '',
+          uid: result.user.uid,
+          email: result.user.email,
+          status: '',
         })
-        .then(() => {
-          auth.currentUser
-            .updateProfile({
-              displayName: username,
-              photoURL: '',
-            })
-
-            .catch((error) => {
-              alert(error)
-            })
+        auth.currentUser.updateProfile({
+          displayName: username,
+          photoURL: '',
         })
-        .catch((err) => alert(err))
+      } catch (e) {
+        alert(e)
+      }
     } else {
       alert('Username слишком длинный')
     }

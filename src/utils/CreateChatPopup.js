@@ -17,23 +17,20 @@ const CreateChatPopup = ({colors, user, showPopup, setShowPopup, setAlert}) => {
     setShowPopup(false)
   }
 
-  const createChat = () => {
+  const createChat = async () => {
     if (roomName) {
       if (roomName.length >= 30) {
         alert('Слишком длинное название для чата!')
       } else {
-        db.collection('rooms')
-          .get()
-          .then((snap) => {
-            setAlert(true)
-            db.collection('rooms').add({
-              name: roomName,
-              color: colors[Math.floor(Math.random() * colors.length)],
-              creator: user.uid,
-              id: snap.size + 1,
-              isPinned: [],
-            })
-          })
+        let snap = await db.collection('rooms').get()
+        setAlert(true)
+        db.collection('rooms').add({
+          name: roomName,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          creator: user.uid,
+          id: snap.size + 1,
+          isPinned: [],
+        })
       }
     }
     setOpen(false)

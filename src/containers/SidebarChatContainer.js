@@ -21,43 +21,40 @@ const SidebarChatContainer = (props) => {
     }
   }, [props.id])
 
-  const pinToTop = () => {
-    db.collection('rooms')
-      .doc(props.id)
-      .get()
-      .then((snap) => {
-        let result = []
-        snap.data().isPinned.forEach((item) => {
-          if (!result.includes(item)) {
-            result.push(item)
-          }
-        })
-        let isFind = false
-        result.forEach((res) => {
-          if (res === props.user.uid) {
-            isFind = true
-            let index = result.indexOf(props.user.uid)
-            result.splice(index, 1)
-            db.collection('rooms').doc(props.id).set(
-              {
-                isPinned: result,
-              },
-              {merge: true}
-            )
-            return
-          }
-        })
-        if (!isFind) {
-          db.collection('rooms')
-            .doc(props.id)
-            .set(
-              {
-                isPinned: [...snap.data().isPinned, props.user.uid],
-              },
-              {merge: true}
-            )
-        }
-      })
+  const pinToTop = async () => {
+    let snap = await db.collection('rooms').doc(props.id).get()
+
+    let result = []
+    snap.data().isPinned.forEach((item) => {
+      if (!result.includes(item)) {
+        result.push(item)
+      }
+    })
+    let isFind = false
+    result.forEach((res) => {
+      if (res === props.user.uid) {
+        isFind = true
+        let index = result.indexOf(props.user.uid)
+        result.splice(index, 1)
+        db.collection('rooms').doc(props.id).set(
+          {
+            isPinned: result,
+          },
+          {merge: true}
+        )
+        return
+      }
+    })
+    if (!isFind) {
+      db.collection('rooms')
+        .doc(props.id)
+        .set(
+          {
+            isPinned: [...snap.data().isPinned, props.user.uid],
+          },
+          {merge: true}
+        )
+    }
   }
 
   const showAlert = () => {

@@ -22,13 +22,12 @@ export default function UserProfilePopup({open, setOpen, userId, showAlert}) {
   const [checked, setChecked] = useState(true)
 
   useEffect(() => {
-    db.collection('users')
-      .doc(userId)
-      .get()
-      .then((res) => {
-        setUser(res.data())
-        setIsFetching(false)
-      })
+    const getUser = async () => {
+      let res = await db.collection('users').doc(userId).get()
+      setUser(res.data())
+      setIsFetching(false)
+    }
+    getUser()
   }, [userId])
 
   const handleClose = () => {
