@@ -60,7 +60,7 @@ const ChatContainer = (props) => {
   const sendMessage = (e) => {
     e.preventDefault()
     setPopup(false)
-    if (input) {
+    if (input && input.trim().length > 0) {
       db.collection('rooms').doc(roomId).collection('messages').add({
         name: props.user.displayName,
         message: input,
