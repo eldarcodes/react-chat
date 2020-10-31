@@ -20,7 +20,7 @@ const ChatContainer = (props) => {
   const [messageUserId, setMessageUserId] = useState('')
   const [alert, setAlert] = useState(false)
 
-  const [_, setChosenEmoji] = useState(null)
+  const [, setChosenEmoji] = useState(null)
 
   const {roomId} = useParams()
   const el = useRef(null)
@@ -28,6 +28,7 @@ const ChatContainer = (props) => {
   useEffect(() => {
     el.current.scrollIntoView({block: 'end', behavior: 'auto'})
   })
+
   useEffect(() => {
     setInput('')
     if (roomId) {

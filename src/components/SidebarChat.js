@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {colors, menu} from './../utils/common'
 import {ReactComponent as PinToTop} from '../assets/pushpin.svg'

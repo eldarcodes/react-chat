@@ -87,9 +87,13 @@ const Chat = ({
             Был в сети:
             {messages.length
               ? ' ' +
-                new Date(messages[messages.length - 1]?.timestamp?.toDate())
-                  .toString()
-                  .slice(0, -45)
+                new Date(
+                  messages[messages.length - 1]?.timestamp?.seconds * 1000
+                ).getHours() +
+                ':' +
+                new Date(
+                  messages[messages.length - 1]?.timestamp?.seconds * 1000
+                ).getMinutes()
               : ' -'}
           </p>
         </div>
@@ -139,7 +143,9 @@ const Chat = ({
               message.message
             )}
             <span className="chat__timestamp">
-              {new Date(message.timestamp?.toDate()).toString().slice(16, -45)}
+              {new Date(message?.timestamp?.seconds * 1000).getHours() +
+                ':' +
+                new Date(message?.timestamp?.seconds * 1000).getMinutes()}
             </span>
           </p>
         ))}
