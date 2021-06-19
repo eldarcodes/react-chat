@@ -1,20 +1,21 @@
-import firebase from 'firebase'
+import firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCd8OZo0ainbVr3ArzQtoIiHsqRkPzYBm4',
-  authDomain: 'react-chat-85412.firebaseapp.com',
-  databaseURL: 'https://react-chat-85412.firebaseio.com',
-  projectId: 'react-chat-85412',
-  storageBucket: 'react-chat-85412.appspot.com',
-  messagingSenderId: '271626338896',
-  appId: '1:271626338896:web:775afa38e43a392f10c755',
-  measurementId: 'G-PMR66HSCVX',
-}
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: "271626338896",
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+};
+console.log(firebaseConfig);
 
-const firebaseApp = firebase.initializeApp(firebaseConfig)
-const db = firebaseApp.firestore()
-const auth = firebase.auth()
-const provider = new firebase.auth.GoogleAuthProvider()
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const db = firebaseApp.firestore();
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
 
-export {auth, provider}
-export default db
+export { auth, provider };
+export default db;
