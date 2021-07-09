@@ -54,7 +54,7 @@ const App = ({user, isFetching}) => {
           href="https://github.com/mirzabekov00"
           target="_blank"
         >
-          Eldar Myrzabekov
+          Eldar Mirzabekov
         </a>
       </footer>
     </div>
